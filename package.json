@@ -4,12 +4,16 @@
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
-    "cf-typegen": "wrangler types --env-interface CloudflareBindings"
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "test": "vitest",
+    "test:run": "vitest run"
   },
   "dependencies": {
     "hono": "^4.9.2"
   },
   "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.8.65",
+    "@cloudflare/workers-types": "^4.20250819.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "eslint": "8.57.0",
@@ -20,6 +24,7 @@
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.2",
     "typescript-eslint": "^8.20.0",
+    "vitest": "~3.2.0",
     "wrangler": "^4.4.0"
   }
 }
