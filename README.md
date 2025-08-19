@@ -44,7 +44,7 @@ npm install -g wrangler
 
 # Faça login na sua conta Cloudflare
 wrangler auth login
-```,
+```
 
 ## 🛠️ Scripts disponíveis
 
