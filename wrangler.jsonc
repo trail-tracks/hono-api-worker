@@ -2,7 +2,14 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "hono-api-worker",
   "main": "src/index.ts",
-  "compatibility_date": "2025-08-19"
+  "compatibility_date": "2025-08-19",
+  "build": {
+    "command": "npm run build",
+    "upload": {
+      "format": "modules",
+      "dir": "./dist"
+    }
+  }
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
