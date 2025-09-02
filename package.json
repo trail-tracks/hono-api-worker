@@ -8,8 +8,8 @@
     "test": "vitest",
     "test:run": "vitest run",
     "db:generate": "drizzle-kit generate --config=./drizzle/drizzle.config.ts --name",
-    "db:migrate:local": "wrangler d1 migrations apply hono-api-worker-fork --local", 
-    "db:migrate:prod": "wrangler d1 migrations apply hono-api-worker-fork" 
+    "db:migrate:local": "wrangler d1 migrations apply interactive-trail-db --local",
+    "db:migrate:prod": "wrangler d1 migrations apply interactive-trail-db --remote"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
