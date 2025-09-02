@@ -2,7 +2,15 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "hono-api-worker",
   "main": "src/index.ts",
-  "compatibility_date": "2025-08-19"
+  "compatibility_date": "2025-08-19",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "hono-api-worker-fork",
+      "database_id": "229d25d7-9554-4098-9147-90d800e50271",
+      "migrations_dir": "drizzle/migrations"
+    }
+  ],
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
@@ -19,13 +27,6 @@
   //   {
   //     "binding": "MY_BUCKET",
   //     "bucket_name": "my-bucket"
-  //   }
-  // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
   //   }
   // ],
   // "ai": {

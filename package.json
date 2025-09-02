@@ -6,9 +6,14 @@
     "deploy": "wrangler deploy --minify",
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "test": "vitest",
-    "test:run": "vitest run"
+    "test:run": "vitest run",
+    "db:generate": "drizzle-kit generate --config=./drizzle/drizzle.config.ts --name",
+    "db:migrate:local": "wrangler d1 migrations apply hono-api-worker-fork --local", 
+    "db:migrate:prod": "wrangler d1 migrations apply hono-api-worker-fork" 
   },
   "dependencies": {
+    "dotenv": "^17.2.1",
+    "drizzle-orm": "^0.44.5",
     "hono": "^4.9.2"
   },
   "devDependencies": {
@@ -16,6 +21,7 @@
     "@cloudflare/workers-types": "^4.20250819.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
+    "drizzle-kit": "^0.31.4",
     "eslint": "8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.0.1",
@@ -23,6 +29,7 @@
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.2",
+    "tsx": "^4.20.5",
     "typescript-eslint": "^8.20.0",
     "vitest": "~3.2.0",
     "wrangler": "^4.4.0"
