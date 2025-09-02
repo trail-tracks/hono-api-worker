@@ -46,6 +46,20 @@ npm install -g wrangler
 wrangler auth login
 ```
 
+### 5. Configure o banco de dados D1
+
+```bash
+# Crie um banco D1 (se ainda não existe)
+npx wrangler d1 create hono-api-worker-fork
+
+# Gere a migration inicial do schema (initial_schema é o nome da migration)
+npm run db:generate initial_schema
+
+# Aplique as migrations no banco local
+npm run db:migrate:local
+
+```
+
 ## 🛠️ Scripts disponíveis
 
 | Script | Descrição |
@@ -55,6 +69,9 @@ wrangler auth login
 | `npm run test` | Executa os testes em modo watch |
 | `npm run test:run` | Executa os testes uma única vez |
 | `npm run cf-typegen` | Gera tipos TypeScript baseados na configuração do Workers |
+| `npm run db:generate <nome>` | Gera uma nova migration com nome personalizado |
+| `npm run db:migrate:local` | Aplica migrations no banco D1 local |
+| `npm run db:migrate:prod` | Aplica migrations no banco D1 de produção |
 
 ## 🧑‍💻 Desenvolvimento
 

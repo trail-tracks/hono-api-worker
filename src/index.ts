@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
-import { users } from './schema';
-import { getDb } from './db';
+import { users } from '../drizzle/schema';
+import { getDb } from '../drizzle/db';
 
 type Env = { DB: D1Database };
 
@@ -16,11 +16,11 @@ app.get('/users', async (c) => {
 
 app.post('/users', async (c) => {
   const db = getDb(c.env.DB);
-  const { name } = await c.req.json<{ name: string }>();
+  const { name, email } = await c.req.json<{ name: string, email: string }>();
 
-  if (!name) { return c.text('name required', 400); }
+  if (!name && !email) { return c.text('name required', 400); }
 
-  await db.insert(users).values({ name });
+  await db.insert(users).values({ name, email });
 
   return c.text('created', 201);
 });

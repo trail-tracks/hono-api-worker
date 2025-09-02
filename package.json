@@ -7,7 +7,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "test": "vitest",
     "test:run": "vitest run",
-    "db:generate": "drizzle-kit generate", 
+    "db:generate": "drizzle-kit generate --config=./drizzle/drizzle.config.ts --name",
     "db:migrate:local": "wrangler d1 migrations apply hono-api-worker-fork --local", 
     "db:migrate:prod": "wrangler d1 migrations apply hono-api-worker-fork" 
   },
