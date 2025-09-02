@@ -3,6 +3,13 @@
   "name": "hono-api-worker",
   "main": "src/index.ts",
   "compatibility_date": "2025-08-19",
+  "build": {
+    "command": "npm run build",
+    "upload": {
+      "format": "modules",
+      "dir": "./dist"
+    }
+  },
   "d1_databases": [
     {
       "binding": "DB",
