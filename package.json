@@ -15,11 +15,12 @@
   "dependencies": {
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.5",
+    "drizzle-zod": "^0.8.3",
     "hono": "^4.9.2"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.8.65",
-    "@cloudflare/workers-types": "^4.20250819.0",
+    "@cloudflare/workers-types": "^4.20250906.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "drizzle-kit": "^0.31.4",
@@ -30,8 +31,8 @@
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.2",
-    "typescript": "^5.9.2",
     "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
     "typescript-eslint": "^8.20.0",
     "vitest": "~3.2.0",
     "wrangler": "^4.4.0"
