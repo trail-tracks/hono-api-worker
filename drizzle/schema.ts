@@ -13,5 +13,5 @@ export const institutions = sqliteTable('institutions', {
   email: text('email').unique().notNull(),
   phone: text('phone').notNull(),
   password: text('password').notNull(),
-  profile_image: text('profile_image').notNull(),
+  profile_image: text('profile_image'),
 });
