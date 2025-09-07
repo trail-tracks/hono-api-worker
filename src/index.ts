@@ -1,5 +1,6 @@
 import { Hono } from 'hono';
 import { users } from '../drizzle/schema';
+import dashboard from './routes/institution.routes';
 import { getDb } from '../drizzle/db';
 
 type Env = { DB: D1Database };
@@ -24,5 +25,7 @@ app.post('/users', async (c) => {
 
   return c.text('created', 201);
 });
+
+app.route('/dashboard', dashboard);
 
 export default app;

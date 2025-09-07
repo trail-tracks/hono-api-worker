@@ -26,3 +26,5 @@ export const InstitutionInsertSchema = createInsertSchema(institutions, {
 // tipo TypeScript para criação de instituição
 export type InstitutionInsertType = typeof InstitutionInsertSchema;
 
+// tipo TypeScript para retorno de instituição
+export type InstitutionType = z.infer<typeof institutions>;

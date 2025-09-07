@@ -13,6 +13,8 @@
     "db:migrate:prod": "wrangler d1 migrations apply interactive-trail-db --remote"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.5",
     "drizzle-zod": "^0.8.3",
