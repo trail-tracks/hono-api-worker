@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1756772990154,
+      "tag": "0000_create-users-table",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1757369912539,
+      "tag": "0001_funny_pride",
+      "breakpoints": true
+    }
+  ]
+}
