@@ -1,8 +1,16 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "hono-api-worker",
+  "account_id": "68987b295c01328af6baa1761e79f5a9",
   "main": "src/index.ts",
   "compatibility_date": "2025-08-19",
+  "build": {
+    "command": "npm run build",
+    "upload": {
+      "format": "modules",
+      "dir": "./dist"
+    }
+  },
   "d1_databases": [
     {
       "binding": "DB",

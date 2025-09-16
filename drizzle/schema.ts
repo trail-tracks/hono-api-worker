@@ -14,3 +14,4 @@ export const entity = sqliteTable('entities', {
   addressComplement: text('address_complement'),
   phone: text('phone').notNull(),
 });
+
