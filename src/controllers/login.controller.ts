@@ -37,7 +37,7 @@ export class LoginController {
         200,
       );
     } catch (error) {
-      console.error('Erro no controller de registro:', error);
+      console.error('Erro no controller de login:', error);
       return c.json(
         {
           error: 'Erro interno do servidor',

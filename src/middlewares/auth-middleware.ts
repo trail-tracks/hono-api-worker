@@ -34,10 +34,6 @@ export const authMiddleware = async (
       userId: decoded.sub,
     });
 
-    const test = c.get('jwtPayload').userId;
-
-    console.log(test);
-
     return await next();
   } catch (error) {
     console.error('Auth middleware error:', error);
