@@ -13,7 +13,7 @@
     "db:migrate:prod": "wrangler d1 migrations apply interactive-trail-db --remote"
   },
   "dependencies": {
-    "@hono/zod-validator": "^0.7.2",
+    "@hono/zod-validator": "^0.7.3",
     "bcryptjs": "^3.0.2",
     "dotenv": "^17.2.1",
     "drizzle-orm": "^0.44.5",

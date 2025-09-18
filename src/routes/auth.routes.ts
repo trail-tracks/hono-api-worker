@@ -7,14 +7,21 @@ import { LoginController } from '../controllers/login.controller';
 import { loginSchema } from '../dtos/login.dto';
 import { getDb } from '../../drizzle/db';
 import { entity } from '../../drizzle/schema';
+import { authMiddleware } from '../middlewares/auth-middleware';
 
 type Env = { DB: D1Database };
+type Variables = {
+  jwtPayload: {
+    userId: string;
+  };
+};
 
-const authRoutes = new Hono<{ Bindings: Env }>();
+const authRoutes = new Hono<{ Bindings: Env, Variables: Variables }>();
 const editEntityController = new EditEntityController();
 
 authRoutes.put(
   '/edit',
+  authMiddleware,
   zValidator('json', editSchema),
   editEntityController.edit.bind(editEntityController),
 );
