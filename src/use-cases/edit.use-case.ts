@@ -1,7 +1,7 @@
-import { eq } from "drizzle-orm";
-import { EditDTO } from "../dtos/edit.dto";
-import { getDb } from "../../drizzle/db";
-import { entity } from "../../drizzle/schema";
+import { eq } from 'drizzle-orm';
+import { EditDTO } from '../dtos/edit.dto';
+import { getDb } from '../../drizzle/db';
+import { entity } from '../../drizzle/schema';
 
 export interface EditEntityUseCaseResponse {
   success: boolean;
@@ -23,7 +23,7 @@ export interface EditEntityUseCaseResponse {
 export class EditEntityUseCase {
   static async execute(
     d1Database: D1Database,
-    entityData: EditDTO
+    entityData: EditDTO,
   ): Promise<EditEntityUseCaseResponse> {
     const db = getDb(d1Database);
     try {
@@ -37,7 +37,7 @@ export class EditEntityUseCase {
       if (existingEntity === undefined) {
         return {
           success: false,
-          error: "Entidade Invalida",
+          error: 'Entidade Invalida',
         };
       }
 
@@ -74,10 +74,10 @@ export class EditEntityUseCase {
         entity: updatedEntity,
       };
     } catch (error) {
-      console.error("Erro ao editar entidade:", error);
+      console.error('Erro ao editar entidade:', error);
       return {
         success: false,
-        error: "Erro interno do servidor",
+        error: 'Erro interno do servidor',
       };
     }
   }

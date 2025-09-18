@@ -1,12 +1,19 @@
-import { Hono } from "hono";
-import authRoutes from "./routes/auth.routes";
+import { Hono } from 'hono';
+import authRoutes from './routes/auth.routes';
+import { authMiddleware } from './middlewares/auth-middleware';
 
 type Env = { DB: D1Database };
 
-const app = new Hono<{ Bindings: Env }>();
+type Variables = {
+  jwtPayload: {
+    userId: string;
+  };
+};
 
-app.get("/", (c) => c.text("Hello Hono!"));
+const app = new Hono<{ Bindings: Env, Variables: Variables }>();
 
-app.route("/auth", authRoutes);
+app.get('/', authMiddleware, (c) => c.text('Hello Hono!'));
+
+app.route('/auth', authRoutes);
 
 export default app;
