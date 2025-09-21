@@ -8,6 +8,8 @@ import { loginSchema } from '../dtos/login.dto';
 import { getDb } from '../../drizzle/db';
 import { entity } from '../../drizzle/schema';
 import { authMiddleware } from '../middlewares/auth-middleware';
+import { CreateEntityDto } from '../dtos/signup.dto';
+import { EntitiesController } from '../controllers/signup-entity.controller';
 
 type Env = { DB: D1Database };
 type Variables = {
@@ -32,6 +34,13 @@ authRoutes.post(
   '/login',
   zValidator('json', loginSchema),
   loginController.handle.bind(loginController),
+);
+
+// Rota de registro (signup)
+authRoutes.post(
+  '/signup',
+  zValidator('json', CreateEntityDto),
+  (c) => EntitiesController.create(c)
 );
 
 authRoutes.post('/register-entity', async (c) => {
