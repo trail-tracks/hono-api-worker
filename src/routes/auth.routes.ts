@@ -11,7 +11,13 @@ import { authMiddleware } from '../middlewares/auth-middleware';
 import { CreateEntityDto } from '../dtos/signup.dto';
 import { EntitiesController } from '../controllers/signup-entity.controller';
 
-type Env = { DB: D1Database };
+type Env = {
+  Bindings: {
+    DB: D1Database,
+    JWT_SECRET: string,
+  }
+}
+
 type Variables = {
   jwtPayload: {
     userId: string;
