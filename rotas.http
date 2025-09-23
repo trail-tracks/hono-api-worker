@@ -1,0 +1,43 @@
+### Signup
+POST http://localhost:8787/auth/signup
+Content-Type: application/json
+
+{
+	"name": "João Silva",
+	"nameComplement": "Filho",
+	"email": "joao.silva@email.com",
+	"password": "senhaSegura123",
+	"zipCode": "12345678",
+	"address": "Rua das Flores",
+	"number": "123",
+	"city": "São Paulo",
+	"state": "SP",
+	"addressComplement": "Apto 45",
+	"phone": "11999999999"
+}
+
+### Login
+POST http://localhost:8787/auth/login
+Content-Type: application/json
+
+{
+	"email": "joao.silva@email.com",
+	"password": "senhaSegura123"
+}
+
+### Edit
+PUT http://localhost:8787/auth/edit
+Content-Type: application/json
+
+{
+	"id": 1,
+	"name": "João Silva",
+	"nameComplement": "Filho",
+	"zipCode": "12345678",
+	"address": "Rua das Flores",
+	"number": 123,
+	"city": "São Paulo",
+	"state": "SP",
+	"addressComplement": "Apto 45",
+	"phone": "11999999999999"
+}
