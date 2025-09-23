@@ -1,15 +1,19 @@
-import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
+import { Hono } from 'hono';
+import authRoutes from './routes/auth.routes';
+import { authMiddleware } from './middlewares/auth-middleware';
 
-const app = new Hono()
+type Env = { DB: D1Database };
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+type Variables = {
+  jwtPayload: {
+    userId: string;
+  };
+};
 
-serve({
-  fetch: app.fetch,
-  port: 3000
-}, (info) => {
-  console.log(`Server is running on http://localhost:${info.port}`)
-})
+const app = new Hono<{ Bindings: Env, Variables: Variables }>();
+
+app.get('/', authMiddleware, (c) => c.text('Hello Hono!'));
+
+app.route('/auth', authRoutes);
+
+export default app;
