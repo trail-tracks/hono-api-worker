@@ -1,19 +1,19 @@
 import { Context } from "hono";
 import { CreateEntityDto, EntityResponseDto } from "../dtos/signup.dto";
 import { CreateEntityUseCase } from "../use-cases/signup.use-case";
-import { z } from 'zod';
+import { z } from "zod";
 
 type Env = {
   Bindings: {
-    DB: D1Database,
-    JWT_SECRET: string,
-  }
-}
+    DB: D1Database;
+    JWT_SECRET: string;
+  };
+};
 
 export class EntitiesController {
   // Criar uma nova entity
 
-  static async create(c: Context<Env>) {
+  async create(c: Context<Env>) {
     try {
       const entityData = await c.req.json();
       const validatedData = CreateEntityDto.parse(entityData);
@@ -25,35 +25,35 @@ export class EntitiesController {
           {
             error: result.error,
           },
-          400,
+          400
         );
       }
 
       return c.json(
         {
-          message: 'Entity criada com sucesso',
+          message: "Entity criada com sucesso",
           entity: EntityResponseDto.parse(result.entity),
         },
-        201,
+        201
       );
     } catch (error) {
-      console.error('Erro no controller de criação:', error);
-      
+      console.error("Erro no controller de criação:", error);
+
       if (error instanceof z.ZodError) {
         return c.json(
           {
-            error: 'Dados inválidos',
+            error: "Dados inválidos",
           },
-          400,
+          400
         );
       }
 
       return c.json(
         {
-          error: 'Erro interno do servidor',
-          message: 'Falha ao criar entity',
+          error: "Erro interno do servidor",
+          message: "Falha ao criar entity",
         },
-        500,
+        500
       );
     }
   }
