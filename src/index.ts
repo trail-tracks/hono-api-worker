@@ -1,6 +1,5 @@
 import { Hono } from 'hono';
 import authRoutes from './routes/auth.routes';
-import { authMiddleware } from './middlewares/auth-middleware';
 
 type Env = { DB: D1Database };
 
@@ -27,7 +26,7 @@ app.use('*', async (c, next) => {
   return c.res;
 });
 
-app.get('/', authMiddleware, (c) => c.text('Hello Hono!'));
+app.get('/', (c) => c.text('Hello Hono!'));
 
 app.route('/auth', authRoutes);
 
