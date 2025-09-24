@@ -19,9 +19,6 @@
       "migrations_dir": "drizzle/migrations"
     }
   ],
-  "vars": {
-    "JWT_SECRET": "SUA-SECRET-DE-TESTE"
-  }
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
