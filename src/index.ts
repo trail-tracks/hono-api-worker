@@ -16,7 +16,7 @@ app.use(
   '*',
   cors({
     origin: 'https://trilhainterativa.com.br',
-    allowHeaders: ['X-Custom-Header', 'Upgrade-Insecure-Requests'],
+    allowHeaders: ['Content-Type', 'Authorization', 'X-Custom-Header', 'Upgrade-Insecure-Requests'],
     allowMethods: ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'],
     exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
     credentials: true,
