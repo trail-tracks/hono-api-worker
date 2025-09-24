@@ -62,8 +62,6 @@ export class LoginUseCase {
 
       const token = await sign(payload, jwtSecret);
 
-      console.log(jwtSecret);
-
       return {
         success: true,
         user: {
