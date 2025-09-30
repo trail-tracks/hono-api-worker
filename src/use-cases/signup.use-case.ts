@@ -1,10 +1,8 @@
 import { eq } from 'drizzle-orm';
 import { hash } from 'bcryptjs';
 import { getDb } from '../../drizzle/db';
-
 import { CreateEntityDtoType } from '../dtos/signup.dto';
-import { entity } from '../../drizzle/schema';
-
+import { attachment, entity } from '../../drizzle/schema';
 
 export interface CreateEntityUseCaseResponse {
   success: boolean;
@@ -33,7 +31,7 @@ export class CreateEntityUseCase {
     entityData: CreateEntityDtoType,
   ): Promise<CreateEntityUseCaseResponse> {
     const db = getDb(d1Database);
-    
+
     try {
       // Verificar se email já existe
       const existingEntity = await db
@@ -69,6 +67,44 @@ export class CreateEntityUseCase {
         };
       }
 
+      let existingAttachment: {
+        uuid: string;
+        entityId: number | null;
+      } | null = null;
+
+      if (entityData.attachmentUuid) {
+        const fetchedAttachment = await db
+          .select({
+            uuid: attachment.uuid,
+            entityId: attachment.entityId,
+          })
+          .from(attachment)
+          .where(eq(attachment.uuid, entityData.attachmentUuid))
+          .get();
+
+        if (!fetchedAttachment) {
+          return {
+            success: false,
+            error: {
+              message: 'Anexo não encontrado para o UUID informado',
+              statusCode: 404,
+            },
+          };
+        }
+
+        if (fetchedAttachment.entityId) {
+          return {
+            success: false,
+            error: {
+              message: 'Este anexo já foi associado a outro cadastro',
+              statusCode: 409,
+            },
+          };
+        }
+
+        existingAttachment = fetchedAttachment;
+      }
+
       // Hash da senha
       const hashedPassword = await hash(entityData.password, 12);
 
@@ -91,6 +127,18 @@ export class CreateEntityUseCase {
         .returning()
         .get();
 
+      if (entityData.attachmentUuid && existingAttachment) {
+        const now = new Date();
+        await db
+          .update(attachment)
+          .set({
+            entityId: result.id,
+            updatedAt: now,
+          })
+          .where(eq(attachment.uuid, existingAttachment.uuid))
+          .run();
+      }
+
       // Retornar dados sem a senha
       return {
         success: true,
@@ -108,10 +156,10 @@ export class CreateEntityUseCase {
           addressComplement: result.addressComplement,
         },
       };
-
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Erro no CreateEntityUseCase:', error);
-      
+
       return {
         success: false,
         error: {

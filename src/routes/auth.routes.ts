@@ -7,21 +7,9 @@ import { loginSchema } from '../dtos/login.dto';
 import { authMiddleware } from '../middlewares/auth-middleware';
 import { CreateEntityDto } from '../dtos/signup.dto';
 import { EntitiesController } from '../controllers/signup-entity.controller';
+import { AppBindings, AppVariables } from '../types/env';
 
-type Env = {
-  Bindings: {
-    DB: D1Database;
-    JWT_SECRET: string;
-  };
-};
-
-type Variables = {
-  jwtPayload: {
-    userId: string;
-  };
-};
-
-const authRoutes = new Hono<{ Bindings: Env; Variables: Variables }>();
+const authRoutes = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 const editEntityController = new EditEntityController();
 const entitiesController = new EntitiesController();
 
