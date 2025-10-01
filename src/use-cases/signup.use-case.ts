@@ -1,10 +1,9 @@
-import { eq } from 'drizzle-orm';
 import { hash } from 'bcryptjs';
+import { eq } from 'drizzle-orm';
 import { getDb } from '../../drizzle/db';
 
-import { CreateEntityDtoType } from '../dtos/signup.dto';
 import { entity } from '../../drizzle/schema';
-
+import { CreateEntityDtoType } from '../dtos/signup.dto';
 
 export interface CreateEntityUseCaseResponse {
   success: boolean;
@@ -33,7 +32,7 @@ export class CreateEntityUseCase {
     entityData: CreateEntityDtoType,
   ): Promise<CreateEntityUseCaseResponse> {
     const db = getDb(d1Database);
-    
+
     try {
       // Verificar se email já existe
       const existingEntity = await db
@@ -108,10 +107,9 @@ export class CreateEntityUseCase {
           addressComplement: result.addressComplement,
         },
       };
-
     } catch (error) {
       console.error('Erro no CreateEntityUseCase:', error);
-      
+
       return {
         success: false,
         error: {

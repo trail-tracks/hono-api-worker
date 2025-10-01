@@ -34,10 +34,18 @@ Content-Type: application/json
 	"name": "João Silva",
 	"nameComplement": "Filho",
 	"zipCode": "12345678",
-	"address": "Rua das Flores",
-	"number": 123,
+	"address": "Rua das Pedras",
+	"number": 456,
 	"city": "São Paulo",
 	"state": "SP",
 	"addressComplement": "Apto 45",
 	"phone": "11999999999999"
+}
+
+### Delete (Soft Delete)
+DELETE http://localhost:8787/auth/delete
+Content-Type: application/json
+
+{
+	"id": 1
 }

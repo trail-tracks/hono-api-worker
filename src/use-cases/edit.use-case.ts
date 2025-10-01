@@ -1,7 +1,7 @@
-import { eq } from 'drizzle-orm';
-import { EditDTO } from '../dtos/edit.dto';
+import { and, eq, isNull } from 'drizzle-orm';
 import { getDb } from '../../drizzle/db';
 import { entity } from '../../drizzle/schema';
+import { EditDTO } from '../dtos/edit.dto';
 
 export interface EditEntityUseCaseResponse {
   success: boolean;
@@ -27,17 +27,17 @@ export class EditEntityUseCase {
   ): Promise<EditEntityUseCaseResponse> {
     const db = getDb(d1Database);
     try {
-      // Verificar se a entidade existe
+      // Verificar se a entidade existe e não foi deletada
       const existingEntity = await db
         .select()
         .from(entity)
-        .where(eq(entity.id, entityData.id))
+        .where(and(eq(entity.id, entityData.id), isNull(entity.deletedAt)))
         .get();
 
       if (existingEntity === undefined) {
         return {
           success: false,
-          error: 'Entidade Invalida',
+          error: 'Entidade não encontrada ou foi excluída',
         };
       }
 
