@@ -13,4 +13,5 @@ export const entity = sqliteTable('entities', {
   state: text('state').notNull(),
   addressComplement: text('address_complement'),
   phone: text('phone').notNull(),
+  deletedAt: text('deleted_at'),
 });

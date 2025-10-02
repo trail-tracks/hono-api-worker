@@ -1,5 +1,5 @@
-import { eq } from 'drizzle-orm';
 import { compare } from 'bcryptjs';
+import { and, eq, isNull } from 'drizzle-orm';
 import { sign } from 'hono/jwt';
 import { getDb } from '../../drizzle/db';
 import { entity } from '../../drizzle/schema';
@@ -30,7 +30,7 @@ export class LoginUseCase {
       const existingUser = await db
         .select()
         .from(entity)
-        .where(eq(entity.email, loginData.email))
+        .where(and(eq(entity.email, loginData.email), isNull(entity.deletedAt)))
         .get();
 
       if (!existingUser) {
