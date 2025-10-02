@@ -2,16 +2,10 @@ import { Context } from 'hono';
 import { setCookie } from 'hono/cookie';
 import { LoginUseCase } from '../use-cases/login.use-case';
 import { LoginDTO } from '../dtos/login.dto';
-
-type Env = {
-  Bindings: {
-    DB: D1Database,
-    JWT_SECRET: string,
-  }
-}
+import { AppBindings } from '../types/env';
 
 export class LoginController {
-  async handle(c: Context<Env>) {
+  async handle(c: Context<{ Bindings: AppBindings }>) {
     try {
       const jwtSecret = c.env.JWT_SECRET;
       const loginData: LoginDTO = await c.req.json();
@@ -27,7 +21,11 @@ export class LoginController {
         );
       }
 
-      setCookie(c, 'access_token', result.token!);
+      setCookie(c, 'access_token', result.token!, {
+        httpOnly: true,
+        path: '/',
+        sameSite: 'lax',
+      });
 
       return c.json(
         {
@@ -37,6 +35,7 @@ export class LoginController {
         200,
       );
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Erro no controller de login:', error);
       return c.json(
         {
