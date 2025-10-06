@@ -8,22 +8,10 @@ import { deleteSchema } from '../dtos/delete.dto';
 import { editSchema } from '../dtos/edit.dto';
 import { loginSchema } from '../dtos/login.dto';
 import { CreateEntityDto } from '../dtos/signup.dto';
+import { AppBindings, AppVariables } from '../types/env';
 import { authMiddleware } from '../middlewares/auth-middleware';
 
-type Env = {
-  Bindings: {
-    DB: D1Database;
-    JWT_SECRET: string;
-  };
-};
-
-type Variables = {
-  jwtPayload: {
-    userId: string;
-  };
-};
-
-const authRoutes = new Hono<{ Bindings: Env; Variables: Variables }>();
+const authRoutes = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 const editEntityController = new EditEntityController();
 const deleteEntityController = new DeleteEntityController();
 const entitiesController = new EntitiesController();

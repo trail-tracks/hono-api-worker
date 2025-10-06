@@ -1,20 +1,10 @@
 import { Context, Next } from 'hono';
 import { getCookie } from 'hono/cookie';
 import { verify } from 'hono/jwt';
-
-type Env = {
-  DB: D1Database;
-  JWT_SECRET: string;
-};
-
-type Variables = {
-  jwtPayload: {
-    userId: string;
-  };
-};
+import { AppBindings, AppVariables } from '../types/env';
 
 export const authMiddleware = async (
-  c: Context<{ Bindings: Env; Variables: Variables }>,
+  c: Context<{ Bindings: AppBindings; Variables: AppVariables }>,
   next: Next,
 ) => {
   try {
@@ -36,6 +26,7 @@ export const authMiddleware = async (
 
     return await next();
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Auth middleware error:', error);
 
     return c.json({ error: 'Authentication failed' }, 401);

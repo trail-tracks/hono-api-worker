@@ -1,16 +1,10 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import authRoutes from './routes/auth.routes';
+import attachmentsRoutes from './routes/attachments.routes';
+import { AppBindings, AppVariables } from './types/env';
 
-type Env = { DB: D1Database };
-
-type Variables = {
-  jwtPayload: {
-    userId: string;
-  };
-};
-
-const app = new Hono<{ Bindings: Env, Variables: Variables }>();
+const app = new Hono<{ Bindings: AppBindings, Variables: AppVariables }>();
 
 app.use(
   '*',
@@ -26,5 +20,6 @@ app.use(
 app.get('/', (c) => c.text('Hello Hono!'));
 
 app.route('/auth', authRoutes);
+app.route('/attachments', attachmentsRoutes);
 
 export default app;
