@@ -1,5 +1,5 @@
-import { eq } from 'drizzle-orm';
 import { hash } from 'bcryptjs';
+import { eq } from 'drizzle-orm';
 import { getDb } from '../../drizzle/db';
 import { CreateEntityDtoType } from '../dtos/signup.dto';
 import { attachment, entity } from '../../drizzle/schema';
