@@ -65,7 +65,7 @@ export class UploadAttachmentUseCase {
 
     UploadAttachmentUseCase.db = getDb(d1Database);
     const contentType = file.type || 'application/octet-stream';
-    const baseObjectKey: string = 'uploads/';
+    const baseObjectKey: string = 'uploads';
 
     try {
       const arrayBuffer = await file.arrayBuffer();
@@ -78,22 +78,17 @@ export class UploadAttachmentUseCase {
       });
 
       if (params.entityId) {
-        switch (params.type) {
-          case 'cover':
-            await this.saveEntityPicture(
-              client,
-              bucket,
-              body,
-              contentType,
-              params.type,
-              params.entityId,
-              baseObjectKey,
-              file.size,
-            );
-            break;
-          default:
-            throw new Error('');
-        }
+        const entityObjectKey = `${baseObjectKey}/entity`;
+        await this.saveEntityPicture(
+          client,
+          bucket,
+          body,
+          contentType,
+          params.type,
+          params.entityId,
+          entityObjectKey,
+          file.size,
+        );
       }
 
       return {

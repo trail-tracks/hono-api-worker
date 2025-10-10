@@ -49,3 +49,16 @@ Content-Type: application/json
 {
 	"id": 1
 }
+
+### Upload attachment (entidade)
+#### types: galery | cover
+
+POST http://localhost:8787/attachments?type=galery&entityId=1
+Content-Type: multipart/form-data; boundary=boundary123
+
+--boundary123
+Content-Disposition: form-data; name="file"; filename="sample.jpg"
+Content-Type: image/jpeg
+
+< ./tests/images/sample.jpg
+--boundary123--

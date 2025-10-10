@@ -55,7 +55,7 @@ export class AttachmentsController {
         entityId: Number(param.entityId),
       });
 
-      if (!result.success || !result.attachment) {
+      if (result.success !== true) {
         const status = (result.error?.statusCode ?? 500) as ContentfulStatusCode;
         return c.json(
           { error: result.error?.message ?? 'Falha ao processar o upload.' },
