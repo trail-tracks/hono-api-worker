@@ -50,6 +50,10 @@ Content-Type: application/json
 	"id": 1
 }
 
+### List Trails
+GET http://localhost:8787/trails/1
+Content-Type: application/json
+
 ### Upload attachment (entidade)
 #### types: galery | cover
 
