@@ -2,11 +2,15 @@ import { Context } from 'hono';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { UploadAttachmentUseCase } from '../use-cases/upload-attachment.use-case';
 import { AppBindings } from '../types/env';
+import { uplaodAttachmentSchema } from '../dtos/upload-attachment.dto';
 
 export class AttachmentsController {
   async upload(c: Context<{ Bindings: AppBindings }>) {
     try {
       const contentType = c.req.header('content-type');
+      const rawParams = c.req.query();
+      const param = uplaodAttachmentSchema.parse(rawParams);
+
       if (!contentType || !contentType.includes('multipart/form-data')) {
         return c.json(
           { error: 'Content-Type inválido. Use multipart/form-data.' },
@@ -47,10 +51,11 @@ export class AttachmentsController {
         accountId: c.env.R2_ACCOUNT_ID,
         accessKeyId: c.env.R2_ACCESS_KEY_ID,
         secretAccessKey: c.env.R2_SECRET_ACCESS_KEY,
-        publicBaseUrl: c.env.R2_PUBLIC_URL,
+        type: param.type,
+        entityId: Number(param.entityId),
       });
 
-      if (!result.success || !result.attachment) {
+      if (result.success !== true) {
         const status = (result.error?.statusCode ?? 500) as ContentfulStatusCode;
         return c.json(
           { error: result.error?.message ?? 'Falha ao processar o upload.' },
@@ -61,10 +66,6 @@ export class AttachmentsController {
       return c.json(
         {
           message: 'Upload realizado com sucesso',
-          attachment: {
-            uuid: result.attachment.uuid,
-            url: result.attachment.url,
-          },
         },
         201,
       );

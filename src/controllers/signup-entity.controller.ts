@@ -1,6 +1,7 @@
 import { Context } from 'hono';
 import { z } from 'zod';
-import { CreateEntityDto, EntityResponseDto } from '../dtos/signup.dto';
+import { setCookie } from 'hono/cookie';
+import { CreateEntityDto } from '../dtos/signup.dto';
 import { CreateEntityUseCase } from '../use-cases/signup.use-case';
 import { AppBindings } from '../types/env';
 
@@ -11,8 +12,9 @@ export class EntitiesController {
     try {
       const entityData = await c.req.json();
       const validatedData = CreateEntityDto.parse(entityData);
+      const jwtSecret = c.env.JWT_SECRET;
 
-      const result = await CreateEntityUseCase.execute(c.env.DB, validatedData);
+      const result = await CreateEntityUseCase.execute(c.env.DB, validatedData, jwtSecret);
 
       if (!result.success) {
         return c.json(
@@ -23,10 +25,15 @@ export class EntitiesController {
         );
       }
 
+      setCookie(c, 'access_token', result.token!, {
+        httpOnly: true,
+        path: '/',
+        sameSite: 'lax',
+      });
+
       return c.json(
         {
           message: 'Entity criada com sucesso',
-          entity: EntityResponseDto.parse(result.entity),
         },
         201,
       );
