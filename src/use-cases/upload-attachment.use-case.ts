@@ -1,5 +1,6 @@
 import '../polyfills/dom-parser';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { attachment } from '../../drizzle/schema';
 import { getDb } from '../../drizzle/db';
 
@@ -10,7 +11,8 @@ export interface UploadAttachmentUseCaseInput {
   accountId: string;
   accessKeyId: string;
   secretAccessKey: string;
-  publicBaseUrl?: string;
+  type: 'galery' | 'cover';
+  entityId?: number;
 }
 
 export interface UploadAttachmentUseCaseResponse {
@@ -19,7 +21,6 @@ export interface UploadAttachmentUseCaseResponse {
     uuid: string;
     bucket: string;
     objectKey: string;
-    url?: string | null;
     mimeType?: string | null;
     size?: number | null;
   };
@@ -29,21 +30,9 @@ export interface UploadAttachmentUseCaseResponse {
   };
 }
 
-const buildPublicUrl = (
-  accountId: string,
-  bucket: string,
-  objectKey: string,
-  customBaseUrl?: string,
-): string => {
-  if (customBaseUrl) {
-    const base = customBaseUrl.endsWith('/') ? customBaseUrl.slice(0, -1) : customBaseUrl;
-    return `${base}/${objectKey}`;
-  }
-
-  return `https://${accountId}.r2.cloudflarestorage.com/${bucket}/${objectKey}`;
-};
-
 export class UploadAttachmentUseCase {
+  private static db: DrizzleD1Database<Record<string, never>> & { $client: D1Database; };
+
   private static createClient(params: {
     accountId: string;
     accessKeyId: string;
@@ -72,62 +61,38 @@ export class UploadAttachmentUseCase {
       accountId,
       accessKeyId,
       secretAccessKey,
-      publicBaseUrl,
     } = params;
 
-    const db = getDb(d1Database);
+    UploadAttachmentUseCase.db = getDb(d1Database);
     const contentType = file.type || 'application/octet-stream';
-    const objectKey = `uploads/${crypto.randomUUID()}`;
-    const uuid = crypto.randomUUID();
+    const baseObjectKey: string = 'uploads';
 
     try {
       const arrayBuffer = await file.arrayBuffer();
       const body = new Uint8Array(arrayBuffer);
 
-      const client = this.createClient({ accountId, accessKeyId, secretAccessKey });
+      const client = this.createClient({
+        accountId,
+        accessKeyId,
+        secretAccessKey,
+      });
 
-      await client.send(new PutObjectCommand({
-        Bucket: bucket,
-        Key: objectKey,
-        Body: body,
-        ContentType: contentType,
-      }));
-
-      const now = new Date();
-      const url = buildPublicUrl(accountId, bucket, objectKey, publicBaseUrl);
-
-      const inserted = await db
-        .insert(attachment)
-        .values({
-          uuid,
+      if (params.entityId) {
+        const entityObjectKey = `${baseObjectKey}/entity`;
+        await this.saveEntityPicture(
+          client,
           bucket,
-          objectKey,
-          mimeType: contentType,
-          size: file.size,
-          url,
-          createdAt: now,
-          updatedAt: now,
-        })
-        .returning({
-          uuid: attachment.uuid,
-          bucket: attachment.bucket,
-          objectKey: attachment.objectKey,
-          url: attachment.url,
-          mimeType: attachment.mimeType,
-          size: attachment.size,
-        })
-        .get();
+          body,
+          contentType,
+          params.type,
+          params.entityId,
+          entityObjectKey,
+          file.size,
+        );
+      }
 
       return {
         success: true,
-        attachment: {
-          uuid: inserted.uuid,
-          bucket: inserted.bucket,
-          objectKey: inserted.objectKey,
-          url: inserted.url,
-          mimeType: inserted.mimeType,
-          size: inserted.size,
-        },
       };
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -141,5 +106,51 @@ export class UploadAttachmentUseCase {
         },
       };
     }
+  }
+
+  private static async saveEntityPicture(
+    client: S3Client,
+    bucket: string,
+    body: Uint8Array<ArrayBuffer>,
+    contentType: string,
+    type: 'galery' | 'cover',
+    entityId: number,
+    baseObjectKey: string,
+    fileSize: number,
+  ): Promise<void> {
+    const uuid = crypto.randomUUID();
+
+    const objectKey = `${baseObjectKey}/${entityId}/${type}/${uuid}`;
+
+    await client.send(new PutObjectCommand({
+      Bucket: bucket,
+      Key: objectKey,
+      Body: body,
+      ContentType: contentType,
+    }));
+
+    const now = new Date();
+
+    await this.db
+      .insert(attachment)
+      .values({
+        uuid,
+        bucket,
+        objectKey,
+        mimeType: contentType,
+        size: fileSize,
+        url: objectKey,
+        createdAt: now,
+        updatedAt: now,
+      })
+      .returning({
+        uuid: attachment.uuid,
+        bucket: attachment.bucket,
+        objectKey: attachment.objectKey,
+        url: attachment.url,
+        mimeType: attachment.mimeType,
+        size: attachment.size,
+      })
+      .get();
   }
 }
