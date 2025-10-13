@@ -1,6 +1,7 @@
 import { Context } from "hono";
 import { AppBindings } from "../types/env";
 import { ListTrailsUseCase } from "../use-cases/list-trails.use-case";
+import { ContentfulStatusCode } from "hono/utils/http-status";
 
 export class ListTrailsController {
   async list(c: Context<{ Bindings: AppBindings }>) {
@@ -13,13 +14,9 @@ export class ListTrailsController {
       );
 
       if (!result.success) {
-        return c.json(
-          {
-            error: result.error,
-            message: "Falha na edição da entidade",
-          },
-          400
-        );
+        const status = (result.error?.statusCode ??
+          500) as ContentfulStatusCode;
+        return c.json({ error: result.error?.message }, status);
       }
 
       return c.json(

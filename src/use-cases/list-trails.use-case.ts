@@ -1,11 +1,22 @@
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, isNull, like } from "drizzle-orm";
 import { getDb } from "../../drizzle/db";
-import { entity } from "../../drizzle/schema";
-
+import { attachment, entity, trail } from "../../drizzle/schema";
 export interface ListTrailsUseCaseResponse {
   success: boolean;
-  trails?: any[];
-  error?: string;
+  trails?: {
+    id: number;
+    name: string;
+    description: string | null;
+    shortDescription: string | null;
+    duration: number | null;
+    distance: number | null;
+    difficulty: string | null;
+    coverUrl?: string | null;
+  }[];
+  error?: {
+    message: string;
+    statusCode: number;
+  };
 }
 
 export class ListTrailsUseCase {
@@ -25,22 +36,40 @@ export class ListTrailsUseCase {
       if (existingEntity === undefined) {
         return {
           success: false,
-          error: "Entidade não encontrada ou foi excluída",
+          error: {
+            message: "Entidade não encontrada ou foi excluída",
+            statusCode: 404,
+          },
         };
       }
 
-      const trailsList = [{}, {}];
-      // const trailsList = await db.select().from(trails).where(eq(entityId, id));
+      const trailsList = await db
+        .select({
+          id: trail.id,
+          name: trail.name,
+          description: trail.description,
+          shortDescription: trail.shortDescription,
+          duration: trail.duration,
+          distance: trail.distance,
+          difficulty: trail.difficulty,
+          coverUrl: attachment.url,
+        })
+        .from(trail)
+        .leftJoin(attachment, eq(trail.id, attachment.trailId))
+        .where(and(eq(trail.entityId, id), like(attachment.url, "%/cover/%")));
 
       return {
         success: true,
         trails: trailsList,
       };
     } catch (error) {
-      console.error("Erro ao editar entidade:", error);
+      console.log(error);
       return {
         success: false,
-        error: "Erro interno do servidor",
+        error: {
+          message: "Erro interno do servidor",
+          statusCode: 500,
+        },
       };
     }
   }
