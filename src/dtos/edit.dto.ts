@@ -1,7 +1,6 @@
-import z from 'zod';
+import z from "zod";
 
 export const editSchema = z.object({
-  id: z.number(),
   name: z.string().min(3).max(50),
   nameComplement: z.string().min(3).max(100).nullable(),
   zipCode: z.string().length(8),

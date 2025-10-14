@@ -30,7 +30,6 @@ PUT http://localhost:8787/auth/edit
 Content-Type: application/json
 
 {
-	"id": 1,
 	"name": "João Silva",
 	"nameComplement": "Filho",
 	"zipCode": "12345678",
@@ -51,13 +50,13 @@ Content-Type: application/json
 }
 
 ### List Trails
-GET http://localhost:8787/trails/1
+GET http://localhost:8787/trails/7
 Content-Type: application/json
 
 ### Upload attachment (entidade)
 #### types: galery | cover
 
-POST http://localhost:8787/attachments?type=galery&entityId=1
+POST http://localhost:8787/attachments?type=cover
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
