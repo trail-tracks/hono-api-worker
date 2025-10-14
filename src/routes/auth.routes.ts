@@ -8,6 +8,7 @@ import { deleteSchema } from '../dtos/delete.dto';
 import { editSchema } from '../dtos/edit.dto';
 import { loginSchema } from '../dtos/login.dto';
 import { CreateEntityDto } from '../dtos/signup.dto';
+import { ListEntitiesController } from '../controllers/list-entities.controller';
 import { AppBindings, AppVariables } from '../types/env';
 import { authMiddleware } from '../middlewares/auth-middleware';
 
@@ -15,6 +16,7 @@ const authRoutes = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>(
 const editEntityController = new EditEntityController();
 const deleteEntityController = new DeleteEntityController();
 const entitiesController = new EntitiesController();
+const listEntitiesController = new ListEntitiesController();
 
 authRoutes.put(
   '/edit',
@@ -43,6 +45,12 @@ authRoutes.post(
   '/signup',
   zValidator('json', CreateEntityDto),
   entitiesController.create.bind(entitiesController),
+);
+
+authRoutes.get(
+  '/entities',
+  authMiddleware,
+  listEntitiesController.list.bind(entitiesController),
 );
 
 export default authRoutes;
