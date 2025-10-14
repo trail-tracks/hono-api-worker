@@ -1,7 +1,7 @@
-import { and, eq, isNull } from 'drizzle-orm';
-import { getDb } from '../../drizzle/db';
-import { entity } from '../../drizzle/schema';
-import { EditDTO } from '../dtos/edit.dto';
+import { and, eq, isNull } from "drizzle-orm";
+import { getDb } from "../../drizzle/db";
+import { entity } from "../../drizzle/schema";
+import { EditDTO } from "../dtos/edit.dto";
 
 export interface EditEntityUseCaseResponse {
   success: boolean;
@@ -24,6 +24,7 @@ export class EditEntityUseCase {
   static async execute(
     d1Database: D1Database,
     entityData: EditDTO,
+    entityId: number
   ): Promise<EditEntityUseCaseResponse> {
     const db = getDb(d1Database);
     try {
@@ -31,13 +32,13 @@ export class EditEntityUseCase {
       const existingEntity = await db
         .select()
         .from(entity)
-        .where(and(eq(entity.id, entityData.id), isNull(entity.deletedAt)))
+        .where(and(eq(entity.id, entityId), isNull(entity.deletedAt)))
         .get();
 
       if (existingEntity === undefined) {
         return {
           success: false,
-          error: 'Entidade não encontrada ou foi excluída',
+          error: "Entidade não encontrada ou foi excluída",
         };
       }
 
@@ -55,7 +56,7 @@ export class EditEntityUseCase {
           addressComplement: entityData.addressComplement,
           phone: entityData.phone,
         })
-        .where(eq(entity.id, entityData.id))
+        .where(eq(entity.id, entityId))
         .returning({
           id: entity.id,
           name: entity.name,
@@ -74,10 +75,10 @@ export class EditEntityUseCase {
         entity: updatedEntity,
       };
     } catch (error) {
-      console.error('Erro ao editar entidade:', error);
+      console.error("Erro ao editar entidade:", error);
       return {
         success: false,
-        error: 'Erro interno do servidor',
+        error: "Erro interno do servidor",
       };
     }
   }
