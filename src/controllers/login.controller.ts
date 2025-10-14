@@ -1,5 +1,6 @@
 import { Context } from 'hono';
 import { setCookie } from 'hono/cookie';
+import { ContentfulStatusCode } from 'hono/utils/http-status';
 import { LoginUseCase } from '../use-cases/login.use-case';
 import { LoginDTO } from '../dtos/login.dto';
 import { AppBindings } from '../types/env';
@@ -17,7 +18,7 @@ export class LoginController {
           {
             error: result.error,
           },
-          400,
+          result.error?.statusCode as ContentfulStatusCode,
         );
       }
 

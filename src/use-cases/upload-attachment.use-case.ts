@@ -140,6 +140,7 @@ export class UploadAttachmentUseCase {
         mimeType: contentType,
         size: fileSize,
         url: objectKey,
+        entityId,
         createdAt: now,
         updatedAt: now,
       })

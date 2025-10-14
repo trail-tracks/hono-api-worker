@@ -1,9 +1,10 @@
-import { Context } from "hono";
-import { z } from "zod";
-import { setCookie } from "hono/cookie";
-import { CreateEntityDto } from "../dtos/signup.dto";
-import { CreateEntityUseCase } from "../use-cases/signup.use-case";
-import { AppBindings } from "../types/env";
+import { Context } from 'hono';
+import { z } from 'zod';
+import { setCookie } from 'hono/cookie';
+import { ContentfulStatusCode } from 'hono/utils/http-status';
+import { CreateEntityDto } from '../dtos/signup.dto';
+import { CreateEntityUseCase } from '../use-cases/signup.use-case';
+import { AppBindings } from '../types/env';
 
 export class EntitiesController {
   // Criar uma nova entity
@@ -25,7 +26,7 @@ export class EntitiesController {
           {
             error: result.error,
           },
-          400
+          result.error?.statusCode as ContentfulStatusCode,
         );
       }
 
