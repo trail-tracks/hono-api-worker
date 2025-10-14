@@ -1,10 +1,10 @@
 import { and, eq, isNull } from "drizzle-orm";
-import { entity, trail } from "../../drizzle/schema";
+import { trail } from "../../drizzle/schema";
 import { getDb } from "../../drizzle/db";
 
 export interface CreateTrailsUseCaseRequest {
     success: boolean;
-    trial?: {
+    trail?: {
     name: string;
     description?: string;
     shortDescription?: string;
@@ -28,17 +28,17 @@ export class CreateTrailsUseCase {
         const db = getDb(d1Database);
         try {
             // Verificar se a entidade existe e não foi deletada
-            const existingEntity = await db
+            const existingTrail = await db
                 .select()
-                .from(entity)
-                .where(and(eq(entity.id, id), isNull(entity.deletedAt)))
+                .from(trail)
+                .where(and(eq(trail.id, id)))
                 .get();
 
-            if (existingEntity === undefined) {
+            if (existingTrail === undefined) {
                 return {
                     success: false,
                     error: {
-                        message: "Entidade não encontrada ou foi excluída",
+                        message: "Trilha não encontrada ou foi excluída",
                         statusCode: 404,
                     },
                 };
@@ -51,8 +51,8 @@ export class CreateTrailsUseCase {
                     name: "Nome da Trilha",
                     description: "Descrição da Trilha",
                     shortDescription: "Descrição Curta",
-                    duration: 120,
-                    distance: 10,
+                    duration: "120",
+                    distance: "10",
                     difficulty: "Médio",
                     entityId: id,
                 })
@@ -69,6 +69,7 @@ export class CreateTrailsUseCase {
 
             return {
                 success: true,
+                
               
             };
         }
