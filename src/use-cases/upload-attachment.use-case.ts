@@ -153,4 +153,52 @@ export class UploadAttachmentUseCase {
       })
       .get();
   }
+
+
+  private static async saveTrialPicture(
+    client: S3Client,
+    bucket: string,
+    body: Uint8Array<ArrayBuffer>,
+    contentType: string,
+    type: 'galery' | 'cover',
+    entityId: number,
+    trailId: number,
+    baseObjectKey: string,
+    fileSize: number,
+  ): Promise<void> {
+    const uuid = crypto.randomUUID();
+
+    const objectKey = `${baseObjectKey}/${entityId}/${trailId}/${type}/${uuid}`;
+
+    await client.send(new PutObjectCommand({
+      Bucket: bucket,
+      Key: objectKey,
+      Body: body,
+      ContentType: contentType,
+    }));
+
+    const now = new Date();
+
+    await this.db
+      .insert(attachment)
+      .values({
+        uuid,
+        bucket,
+        objectKey,
+        mimeType: contentType,
+        size: fileSize,
+        url: objectKey,
+        createdAt: now,
+        updatedAt: now,
+      })
+      .returning({
+        uuid: attachment.uuid,
+        bucket: attachment.bucket,
+        objectKey: attachment.objectKey,
+        url: attachment.url,
+        mimeType: attachment.mimeType,
+        size: attachment.size,
+      })
+      .get();
+  }
 }

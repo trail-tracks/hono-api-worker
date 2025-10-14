@@ -19,11 +19,12 @@ export const entity = sqliteTable("entities", {
 export const trail = sqliteTable("trails", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
+  shortDescription: text("short_description").notNull(),
+  duration: text("duration").notNull(),
+  distance: text("distance").notNull(),
+  difficulty: text("difficulty").notNull(),
   description: text("description"),
-  shortDescription: text("short_description"),
-  duration: integer("duration"),
-  distance: integer("distance"),
-  difficulty: text("difficulty"),
+  safetyTips: text("safety_tips"),
   entityId: integer("entity_id").references(() => entity.id, {
     onDelete: "cascade",
     onUpdate: "cascade",
