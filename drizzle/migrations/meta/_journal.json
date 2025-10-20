@@ -8,6 +8,13 @@
       "when": 1760379172256,
       "tag": "0000_massive_hellcat",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1760994583177,
+      "tag": "0001_great_sersi",
+      "breakpoints": true
     }
   ]
 }

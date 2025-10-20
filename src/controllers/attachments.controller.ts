@@ -49,7 +49,8 @@ export class AttachmentsController {
         accessKeyId: c.env.R2_ACCESS_KEY_ID,
         secretAccessKey: c.env.R2_SECRET_ACCESS_KEY,
         type: param.type,
-        entityId: Number(c.get("jwtPayload").userId), // pegar id do jwt
+        entityId: param.entityId ? Number(param.entityId) : Number(c.get("jwtPayload").userId),
+        trailId: param.trailId ? Number(param.trailId) : undefined,
       });
 
       if (result.success !== true) {

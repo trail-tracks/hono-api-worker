@@ -22,9 +22,13 @@
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
+  "vars": {
+  "JWT_SECRET": "desenvolvimento-123456789-secreto",
+  "R2_ACCOUNT_ID": "68987b295c01328af6baa1761e79f5a9",
+  "R2_ACCESS_KEY_ID": "sua-access-key-id-copiada",
+  "R2_SECRET_ACCESS_KEY": "sua-secret-access-key-copiada",
+  "R2_BUCKET": "trilha-interativa"
+},
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",

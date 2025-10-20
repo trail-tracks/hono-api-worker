@@ -49,6 +49,20 @@ Content-Type: application/json
 	"id": 1
 }
 
+### Create Trail (requer autenticação)
+POST http://localhost:8787/trails
+Content-Type: application/json
+
+{
+	"name": "Trilha da Pedra Grande",
+	"shortDescription": "Uma trilha desafiadora com vista panorâmica incrível da cidade.",
+	"description": "Esta trilha leva você através da mata atlântica até o topo da Pedra Grande, onde você terá uma vista de 360 graus da região. O caminho é bem marcado mas possui trechos íngremes. Ideal para quem busca um desafio moderado e quer apreciar a natureza.",
+	"duration": 180,
+	"distance": 5.5,
+	"difficulty": "moderado",
+	"safetyTips": "Leve bastante água (mínimo 2 litros por pessoa), protetor solar, boné e lanches energéticos. Use calçados apropriados para trilha. Evite fazer a trilha em dias chuvosos pois o caminho fica escorregadio. Não se esqueça de levar repelente de insetos."
+}
+
 ### List Trails
 GET http://localhost:8787/trails/7
 Content-Type: application/json
@@ -61,6 +75,32 @@ Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
 Content-Disposition: form-data; name="file"; filename="sample.jpg"
+Content-Type: image/jpeg
+
+< ./tests/images/sample.jpg
+--boundary123--
+
+### Upload attachment (trilha) - capa
+#### Substitua "1" pelo ID da trilha criada
+
+POST http://localhost:8787/attachments?type=cover&trailId=1
+Content-Type: multipart/form-data; boundary=boundary123
+
+--boundary123
+Content-Disposition: form-data; name="file"; filename="trail-cover.jpg"
+Content-Type: image/jpeg
+
+< ./tests/images/sample.jpg
+--boundary123--
+
+### Upload attachment (trilha) - galeria
+#### Substitua "1" pelo ID da trilha criada
+
+POST http://localhost:8787/attachments?type=galery&trailId=1
+Content-Type: multipart/form-data; boundary=boundary123
+
+--boundary123
+Content-Disposition: form-data; name="file"; filename="trail-gallery-1.jpg"
 Content-Type: image/jpeg
 
 < ./tests/images/sample.jpg
