@@ -1,9 +1,9 @@
 import { Context } from 'hono';
 import { ListEntitiesUseCase } from '../use-cases/list-entities.use-case';
-import type { AppBindings } from '../types/env';
+import { AppBindings } from '../types/env';
 
 export class ListEntitiesController {
-  async list(c: Context<AppBindings>) {
+  async list(c: Context<{ Bindings: AppBindings }>) {
     try {
       const result = await ListEntitiesUseCase.execute(c.env.DB);
 
@@ -34,4 +34,5 @@ export class ListEntitiesController {
       );
     }
   }
+
 }
