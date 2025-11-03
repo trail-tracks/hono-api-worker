@@ -1,15 +1,9 @@
 import { Context } from 'hono';
 import { ListEntitiesUseCase } from '../use-cases/list-entities.use-case';
-
-type Env = {
-  Bindings: {
-    DB: D1Database;
-    JWT_SECRET: string;
-  };
-};
+import type { AppBindings } from '../types/env';
 
 export class ListEntitiesController {
-  async list(c: Context<Env>) {
+  async list(c: Context<AppBindings>) {
     try {
       const result = await ListEntitiesUseCase.execute(c.env.DB);
 
