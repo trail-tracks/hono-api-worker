@@ -4,6 +4,8 @@ import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { attachment } from '../../drizzle/schema';
 import { getDb } from '../../drizzle/db';
 
+
+// Define as interfaces de entrada e saída do caso de uso
 export interface UploadAttachmentUseCaseInput {
   d1Database: D1Database;
   file: File;
@@ -13,8 +15,10 @@ export interface UploadAttachmentUseCaseInput {
   secretAccessKey: string;
   type: 'galery' | 'cover';
   entityId?: number;
+  trailId?: number;
 }
 
+// Define a interface de resposta do caso de uso
 export interface UploadAttachmentUseCaseResponse {
   success: boolean;
   attachment?: {
@@ -30,6 +34,8 @@ export interface UploadAttachmentUseCaseResponse {
   };
 }
 
+
+//Define um client do S3 para upload de arquivos para o R2
 export class UploadAttachmentUseCase {
   private static db: DrizzleD1Database<Record<string, never>> & { $client: D1Database; };
 
@@ -51,6 +57,8 @@ export class UploadAttachmentUseCase {
     });
   }
 
+
+  // Executa o caso de uso de upload de anexo
   static async execute(
     params: UploadAttachmentUseCaseInput,
   ): Promise<UploadAttachmentUseCaseResponse> {
@@ -87,6 +95,20 @@ export class UploadAttachmentUseCase {
           params.type,
           params.entityId,
           entityObjectKey,
+          file.size,
+        );
+      }
+
+      if (params.trailId) {
+        const trailObjectKey = `${baseObjectKey}/trail`;
+        await this.saveTrailPicture(
+          client,
+          bucket,
+          body,
+          contentType,
+          params.type,
+          params.trailId,
+          trailObjectKey,
           file.size,
         );
       }
@@ -141,6 +163,53 @@ export class UploadAttachmentUseCase {
         size: fileSize,
         url: objectKey,
         entityId,
+        createdAt: now,
+        updatedAt: now,
+      })
+      .returning({
+        uuid: attachment.uuid,
+        bucket: attachment.bucket,
+        objectKey: attachment.objectKey,
+        url: attachment.url,
+        mimeType: attachment.mimeType,
+        size: attachment.size,
+      })
+      .get();
+  }
+
+  private static async saveTrailPicture(
+    client: S3Client,
+    bucket: string,
+    body: Uint8Array<ArrayBuffer>,
+    contentType: string,
+    type: 'galery' | 'cover',
+    trailId: number,
+    baseObjectKey: string,
+    fileSize: number,
+  ): Promise<void> {
+    const uuid = crypto.randomUUID();
+
+    const objectKey = `${baseObjectKey}/${trailId}/${type}/${uuid}`;
+
+    await client.send(new PutObjectCommand({
+      Bucket: bucket,
+      Key: objectKey,
+      Body: body,
+      ContentType: contentType,
+    }));
+
+    const now = new Date();
+
+    await this.db
+      .insert(attachment)
+      .values({
+        uuid,
+        bucket,
+        objectKey,
+        mimeType: contentType,
+        size: fileSize,
+        url: objectKey,
+        trailId,
         createdAt: now,
         updatedAt: now,
       })

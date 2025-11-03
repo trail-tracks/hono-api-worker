@@ -1,8 +1,9 @@
 import z from 'zod';
 
-export const uplaodAttachmentSchema = z.object({
+export const uploadAttachmentSchema = z.object({
   type: z.enum(['cover', 'galery']),
   entityId: z.string().optional(),
+  trailId: z.string().optional(),
 });
 
-export type UploadAttachmentDto = z.infer<typeof uplaodAttachmentSchema>;
+export type UploadAttachmentDto = z.infer<typeof uploadAttachmentSchema>;

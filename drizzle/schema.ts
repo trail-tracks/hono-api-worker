@@ -24,6 +24,7 @@ export const trail = sqliteTable("trails", {
   duration: integer("duration"),
   distance: integer("distance"),
   difficulty: text("difficulty"),
+  safetyTips: text("safety_tips"),
   entityId: integer("entity_id").references(() => entity.id, {
     onDelete: "cascade",
     onUpdate: "cascade",

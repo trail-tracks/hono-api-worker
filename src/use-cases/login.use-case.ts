@@ -69,6 +69,9 @@ export class LoginUseCase {
         )
         .get();
 
+      // Garantir que coverUrl seja null se não houver capa ou url estiver undefined
+      const coverUrl = entityCover?.url ?? null;
+
       const payload = {
         sub: existingUser.id,
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // Token expires in 24 hours
@@ -81,7 +84,7 @@ export class LoginUseCase {
         user: {
           name: existingUser.name,
           nameComplement: existingUser.nameComplement,
-          coverUrl: entityCover?.url || null,
+          coverUrl,
         },
         token,
       };
