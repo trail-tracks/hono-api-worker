@@ -50,7 +50,7 @@ authRoutes.post(
 authRoutes.get(
   '/entities',
   authMiddleware,
-  listEntitiesController.list.bind(entitiesController),
+  listEntitiesController.list.bind(listEntitiesController),
 );
 
 export default authRoutes;
