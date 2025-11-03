@@ -55,8 +55,14 @@ export class ListTrailsUseCase {
           coverUrl: attachment.url,
         })
         .from(trail)
-        .leftJoin(attachment, eq(trail.id, attachment.trailId))
-        .where(and(eq(trail.entityId, id), like(attachment.url, "%/cover/%")));
+        .leftJoin(
+          attachment,
+          and(
+            eq(trail.id, attachment.trailId),
+            like(attachment.url, "%/cover/%")
+          )
+        )
+        .where(eq(trail.entityId, id));
 
       return {
         success: true,
