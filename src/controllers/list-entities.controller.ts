@@ -1,4 +1,5 @@
 import { Context } from 'hono';
+import { ContentfulStatusCode } from 'hono/utils/http-status';
 import { ListEntitiesUseCase } from '../use-cases/list-entities.use-case';
 import type { AppBindings } from '../types/env';
 
@@ -12,7 +13,7 @@ export class ListEntitiesController {
           {
             error: result.error?.message,
           },
-          result.error?.statusCode ?? 500
+          result.error?.statusCode as ContentfulStatusCode
         );
       }
 
@@ -34,4 +35,5 @@ export class ListEntitiesController {
       );
     }
   }
+
 }
