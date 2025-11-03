@@ -28,10 +28,7 @@ export const createTrailSchema = z.object({
     .max(1000, 'Distância não pode exceder 1000 km'),
 
   difficulty: z
-    .enum(['facil', 'moderado', 'dificil', 'muito_dificil'] as const)
-    .refine((val) => true, {
-      message: 'Dificuldade inválida. Opções válidas: facil, moderado, dificil, muito_dificil',
-    }), 
+    .enum(['facil', 'moderado', 'dificil', 'muito_dificil'] as const),
 
   safetyTips: z.string()
     .min(10, 'Dicas de segurança devem ter pelo menos 10 caracteres')
