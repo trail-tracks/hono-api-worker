@@ -68,7 +68,7 @@ GET http://localhost:8787/trails/7
 Content-Type: application/json
 
 ### Upload attachment (entidade)
-#### types: galery | cover
+#### types: galery | cover 
 
 POST http://localhost:8787/attachments?type=cover
 Content-Type: multipart/form-data; boundary=boundary123
