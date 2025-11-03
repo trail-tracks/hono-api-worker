@@ -16,6 +16,14 @@ Content-Type: application/json
 	"phone": "11999999999"
 }
 
+# response: {
+#   "message": "Entity criada com sucesso",
+#   "user": {
+#     "name": "João Silva",
+#     "nameComplement": "Filho"
+#   }
+# }
+
 ### Login
 POST http://localhost:8787/auth/login
 Content-Type: application/json
@@ -24,6 +32,15 @@ Content-Type: application/json
 	"email": "joao.silva@email.com",
 	"password": "senhaSegura123"
 }
+
+# response: {
+#   "message": "Usuário logado com sucesso",
+#   "user": {
+#     "name": "João Silva",
+#     "nameComplement": "Filho",
+#     "coverUrl": null
+#   }
+# }
 
 ### Edit
 PUT http://localhost:8787/auth/edit
@@ -52,6 +69,52 @@ Content-Type: application/json
 ### List Entities
 GET http://localhost:8787/auth/entities
 
+# response: {
+#   "message": "Entidades listadas com sucesso",
+#   "entities": [
+#     {
+#       "id": 1,
+#       "name": "Parquinho de teste",
+#       "email": "marcus@gmail.com",
+#       "zipCode": "11695304",
+#       "address": "Rua Praia Domingas Dias",
+#       "number": "206",
+#       "city": "Ubatuba",
+#       "state": "SP",
+#       "phone": "5512992291446",
+#       "nameComplement": null,
+#       "addressComplement": null
+#     },
+#     {
+#       "id": 2,
+#       "name": "Parquinho de teste",
+#       "email": "marcus2@gmail.com",
+#       "zipCode": "11695304",
+#       "address": "Rua Praia Domingas Dias",
+#       "number": "207",
+#       "city": "Ubatuba",
+#       "state": "SP",
+#       "phone": "5512992291447",
+#       "nameComplement": null,
+#       "addressComplement": null
+#     },
+#     ...,
+#     {
+#       "id": 10,
+#       "name": "João Silva",
+#       "email": "joao.silva@email.com",
+#       "zipCode": "12345678",
+#       "address": "Rua das Flores",
+#       "number": "123",
+#       "city": "São Paulo",
+#       "state": "SP",
+#       "phone": "11999999999",
+#       "nameComplement": "Filho",
+#       "addressComplement": "Apto 45"
+#     }
+#   ]
+# }
+
 ### Create Trail (requer autenticação)
 POST http://localhost:8787/trails
 Content-Type: application/json
@@ -65,6 +128,23 @@ Content-Type: application/json
 	"difficulty": "moderado",
 	"safetyTips": "Leve bastante água (mínimo 2 litros por pessoa), protetor solar, boné e lanches energéticos. Use calçados apropriados para trilha. Evite fazer a trilha em dias chuvosos pois o caminho fica escorregadio. Não se esqueça de levar repelente de insetos."
 }
+
+# response: {
+#   "message": "Trilha criada com sucesso",
+#   "trail": {
+#     "id": 2,
+#     "name": "Trilha da Pedra Grande",
+#     "description": "Esta trilha leva você através da mata atlântica até o topo da Pedra Grande, onde você terá uma vista de 360 graus da região. O caminho é bem marcado mas possui trechos íngremes. Ideal para quem busca um desafio moderado e quer apreciar a natureza.",
+#     "shortDescription": "Uma trilha desafiadora com vista panorâmica incrível da cidade.",
+#     "duration": 180,
+#     "distance": 5.5,
+#     "difficulty": "moderado",
+#     "safetyTips": "Leve bastante água (mínimo 2 litros por pessoa), protetor solar, boné e lanches energéticos. Use calçados apropriados para trilha. Evite fazer a trilha em dias chuvosos pois o caminho fica escorregadio. Não se esqueça de levar repelente de insetos.",
+#     "entityId": 11,
+#     "createdAt": "2025-11-03T23:41:29.000Z",
+#     "updatedAt": "2025-11-03T23:41:29.000Z"
+#   }
+# }
 
 ### List Trails by entity ID
 GET http://localhost:8787/trails/1
@@ -80,6 +160,7 @@ GET http://localhost:8787/trails/1
 #       "duration": 180,
 #       "distance": 5.5,
 #       "difficulty": "moderado",
+#       "safetyTips": "Teste",
 #       "coverUrl": null
 #     }
 #   ]
