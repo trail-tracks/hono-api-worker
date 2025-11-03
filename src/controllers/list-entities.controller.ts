@@ -1,9 +1,10 @@
-import { Context } from 'hono';
-import { ListEntitiesUseCase } from '../use-cases/list-entities.use-case';
-import type { AppBindings } from '../types/env';
+import { Context } from "hono";
+import { ListEntitiesUseCase } from "../use-cases/list-entities.use-case";
+import { AppBindings } from "../types/env";
+import { ContentfulStatusCode } from "hono/utils/http-status";
 
 export class ListEntitiesController {
-  async list(c: Context<AppBindings>) {
+  async list(c: Context<{ Bindings: AppBindings }>) {
     try {
       const result = await ListEntitiesUseCase.execute(c.env.DB);
 
@@ -12,23 +13,23 @@ export class ListEntitiesController {
           {
             error: result.error?.message,
           },
-          result.error?.statusCode ?? 500
+          result.error?.statusCode as ContentfulStatusCode
         );
       }
 
       return c.json(
         {
-          message: 'Entidades listadas com sucesso',
+          message: "Entidades listadas com sucesso",
           entities: result.entities,
         },
         200
       );
     } catch (error) {
-      console.error('Erro no controller de listagem:', error);
+      console.error("Erro no controller de listagem:", error);
       return c.json(
         {
-          error: 'Erro interno do servidor',
-          message: 'Falha ao listar entidades',
+          error: "Erro interno do servidor",
+          message: "Falha ao listar entidades",
         },
         500
       );
