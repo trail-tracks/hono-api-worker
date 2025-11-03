@@ -1,20 +1,20 @@
-import { Context } from "hono";
-import type { ContentfulStatusCode } from "hono/utils/http-status";
-import { UploadAttachmentUseCase } from "../use-cases/upload-attachment.use-case";
-import { AppBindings } from "../types/env";
-import { uplaodAttachmentSchema } from "../dtos/upload-attachment.dto";
+import { Context } from 'hono';
+import type { ContentfulStatusCode } from 'hono/utils/http-status';
+import { UploadAttachmentUseCase } from '../use-cases/upload-attachment.use-case';
+import { AppBindings } from '../types/env';
+import { uploadAttachmentSchema } from '../dtos/upload-attachment.dto';
 
 export class AttachmentsController {
   async upload(c: Context<{ Bindings: AppBindings }>) {
     try {
-      const contentType = c.req.header("content-type");
+      const contentType = c.req.header('content-type');
       const rawParams = c.req.query();
-      const param = uplaodAttachmentSchema.parse(rawParams);
+      const param = uploadAttachmentSchema.parse(rawParams);
 
-      if (!contentType || !contentType.includes("multipart/form-data")) {
+      if (!contentType || !contentType.includes('multipart/form-data')) {
         return c.json(
-          { error: "Content-Type inválido. Use multipart/form-data." },
-          400
+          { error: 'Content-Type inválido. Use multipart/form-data.' },
+          400,
         );
       }
 
@@ -25,20 +25,20 @@ export class AttachmentsController {
       if (!(fileCandidate instanceof File)) {
         return c.json(
           { error: 'Arquivo não encontrado no payload. Use o campo "file".' },
-          400
+          400,
         );
       }
 
-      if (!fileCandidate.type?.startsWith("image/")) {
+      if (!fileCandidate.type?.startsWith('image/')) {
         return c.json(
-          { error: "Somente arquivos de imagem são permitidos." },
-          400
+          { error: 'Somente arquivos de imagem são permitidos.' },
+          400,
         );
       }
 
       const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
       if (fileCandidate.size > MAX_SIZE_BYTES) {
-        return c.json({ error: "Arquivo muito grande. Limite de 5MB." }, 413);
+        return c.json({ error: 'Arquivo muito grande. Limite de 5MB.' }, 413);
       }
 
       const result = await UploadAttachmentUseCase.execute({
@@ -49,32 +49,32 @@ export class AttachmentsController {
         accessKeyId: c.env.R2_ACCESS_KEY_ID,
         secretAccessKey: c.env.R2_SECRET_ACCESS_KEY,
         type: param.type,
-        entityId: param.entityId ? Number(param.entityId) : Number(c.get("jwtPayload").userId),
+        entityId: param.entityId ? Number(param.entityId) : Number(c.get('jwtPayload').userId),
         trailId: param.trailId ? Number(param.trailId) : undefined,
       });
 
       if (result.success !== true) {
-        const status = (result.error?.statusCode ??
-          500) as ContentfulStatusCode;
+        const status = (result.error?.statusCode
+          ?? 500) as ContentfulStatusCode;
         return c.json(
-          { error: result.error?.message ?? "Falha ao processar o upload." },
-          status
+          { error: result.error?.message ?? 'Falha ao processar o upload.' },
+          status,
         );
       }
 
       return c.json(
         {
-          message: "Upload realizado com sucesso",
+          message: 'Upload realizado com sucesso',
         },
-        201
+        201,
       );
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Erro ao processar upload de anexo:", error);
+      console.error('Erro ao processar upload de anexo:', error);
 
       return c.json(
-        { error: "Erro interno do servidor ao processar upload." },
-        500
+        { error: 'Erro interno do servidor ao processar upload.' },
+        500,
       );
     }
   }
