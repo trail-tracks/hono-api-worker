@@ -18,7 +18,7 @@ export class ListEntitiesController {
           {
             error: result.error?.message,
           },
-          400
+          result.error?.statusCode ?? 500
         );
       }
 
