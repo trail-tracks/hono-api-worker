@@ -22,13 +22,15 @@
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
-  "vars": {
-  "JWT_SECRET": "desenvolvimento-123456789-secreto",
-  "R2_ACCOUNT_ID": "68987b295c01328af6baa1761e79f5a9",
-  "R2_ACCESS_KEY_ID": "sua-access-key-id-copiada",
-  "R2_SECRET_ACCESS_KEY": "sua-secret-access-key-copiada",
-  "R2_BUCKET": "trilha-interativa"
-},
+  // "vars": {
+  //   Place secrets in environment variables or `.dev.vars` for local development.
+  //   Example:
+  //   JWT_SECRET=
+  //   R2_ACCOUNT_ID=
+  //   R2_ACCESS_KEY_ID=
+  //   R2_SECRET_ACCESS_KEY=
+  //   R2_BUCKET=
+  // }
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",
