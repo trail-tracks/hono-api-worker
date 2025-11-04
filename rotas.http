@@ -149,6 +149,7 @@ Content-Type: application/json
 ### List Trails by entity ID
 GET http://localhost:8787/trails/1
 
+
 # response: {
 #   "message": "Trilhas encontradas",
 #   "trails": [
@@ -165,6 +166,16 @@ GET http://localhost:8787/trails/1
 #     }
 #   ]
 # }
+
+### Edit Trail by trail ID and entity ID
+PATCH http://localhost:8787/trails/edit
+Content-Type: application/json
+
+{
+	"id": 1,
+	"name": "Trilha das Pedras Grandes",
+
+}
 
 
 ### Upload attachment (entidade)
