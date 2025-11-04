@@ -67,7 +67,7 @@ Content-Type: application/json
 }
 
 ### List Entities
-GET http://localhost:8787/auth/entities
+GET http://localhost:8787/entities
 
 # response: {
 #   "message": "Entidades listadas com sucesso",
