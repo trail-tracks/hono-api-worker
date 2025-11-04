@@ -6,11 +6,8 @@
   "compatibility_date": "2025-08-19",
   "build": {
     "command": "npm run build",
-    "upload": {
-      "format": "modules",
-      "dir": "./dist"
-    }
   },
+  "keep_vars": true,
   "d1_databases": [
     {
       "binding": "DB",
