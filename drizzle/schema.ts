@@ -1,3 +1,4 @@
+import { desc } from "drizzle-orm";
 import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 
 export const entity = sqliteTable("entities", {
@@ -60,3 +61,11 @@ export const attachment = sqliteTable("attachments", {
     .$defaultFn(() => new Date())
     .$onUpdateFn(() => new Date()),
 });
+
+export const pointOfInterest = sqliteTable("points_of_interest", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  shortDescription: text("description"),
+  description: text("long_description"),
+});
+

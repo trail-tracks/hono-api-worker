@@ -1,29 +1,29 @@
-import { compare } from 'bcryptjs';
-import { and, eq, isNull } from 'drizzle-orm';
-import { sign } from 'hono/jwt';
-import { getDb } from '../../drizzle/db';
-import { entity } from '../../drizzle/schema';
-import { LoginDTO } from '../dtos/login.dto';
+import { compare } from "bcryptjs";
+import { and, eq, isNull, like } from "drizzle-orm";
+import { sign } from "hono/jwt";
+import { getDb } from "../../drizzle/db";
+import { attachment, entity } from "../../drizzle/schema";
+import { LoginDTO } from "../dtos/login.dto";
 
 export interface LoginUseCaseResponse {
-  success: boolean
+  success: boolean;
   user?: {
-    id: number
-    name: string
-    email: string
-  }
+    name: string;
+    nameComplement: string | null;
+    coverUrl: string | null;
+  };
   token?: string;
   error?: {
-    message: string
-    statusCode: number
-  }
+    message: string;
+    statusCode: number;
+  };
 }
 
 export class LoginUseCase {
   static async execute(
     d1Database: D1Database,
     loginData: LoginDTO,
-    jwtSecret: string,
+    jwtSecret: string
   ): Promise<LoginUseCaseResponse> {
     const db = getDb(d1Database);
     try {
@@ -37,23 +37,40 @@ export class LoginUseCase {
         return {
           success: false,
           error: {
-            message: 'Credenciais Inválidas',
+            message: "Credenciais Inválidas",
             statusCode: 401,
           },
         };
       }
 
-      const passwordMatches = await compare(loginData.password, existingUser.password);
+      const passwordMatches = await compare(
+        loginData.password,
+        existingUser.password
+      );
 
       if (!passwordMatches) {
         return {
           success: false,
           error: {
-            message: 'Credenciais Inválidas',
+            message: "Credenciais Inválidas",
             statusCode: 401,
           },
         };
       }
+
+      const entityCover = await db
+        .select()
+        .from(attachment)
+        .where(
+          and(
+            eq(attachment.entityId, existingUser.id),
+            like(attachment.url, "%/cover/%")
+          )
+        )
+        .get();
+
+      // Garantir que coverUrl seja null se não houver capa ou url estiver undefined
+      const coverUrl = entityCover?.url ?? null;
 
       const payload = {
         sub: existingUser.id,
@@ -65,9 +82,9 @@ export class LoginUseCase {
       return {
         success: true,
         user: {
-          id: existingUser.id,
-          email: existingUser.email,
           name: existingUser.name,
+          nameComplement: existingUser.nameComplement,
+          coverUrl,
         },
         token,
       };

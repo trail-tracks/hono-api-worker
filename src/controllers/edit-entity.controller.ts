@@ -7,8 +7,13 @@ export class EditEntityController {
   async edit(c: Context<{ Bindings: AppBindings }>) {
     try {
       const entityData: EditDTO = await c.req.json();
+      const entityId = Number(c.get('jwtPayload').userId);
 
-      const result = await EditEntityUseCase.execute(c.env.DB, entityData);
+      const result = await EditEntityUseCase.execute(
+        c.env.DB,
+        entityData,
+        entityId,
+      );
 
       if (!result.success) {
         return c.json(

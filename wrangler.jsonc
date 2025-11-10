@@ -6,11 +6,8 @@
   "compatibility_date": "2025-08-19",
   "build": {
     "command": "npm run build",
-    "upload": {
-      "format": "modules",
-      "dir": "./dist"
-    }
   },
+  "keep_vars": true,
   "d1_databases": [
     {
       "binding": "DB",
@@ -23,8 +20,14 @@
   //   "nodejs_compat"
   // ],
   // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
+  //   Place secrets in environment variables or `.dev.vars` for local development.
+  //   Example:
+  //   JWT_SECRET=
+  //   R2_ACCOUNT_ID=
+  //   R2_ACCESS_KEY_ID=
+  //   R2_SECRET_ACCESS_KEY=
+  //   R2_BUCKET=
+  // }
   // "kv_namespaces": [
   //   {
   //     "binding": "MY_KV_NAMESPACE",

@@ -1,23 +1,50 @@
 import { Context } from "hono";
-import { AppBindings } from "../types/env";
-import { CreateTrailsUseCase } from "../use-cases/create-trails.use-case";
+import { ContentfulStatusCode } from "hono/utils/http-status";
+import { CreateTrailUseCase } from "../use-cases/create-trail.use-case";
+import { CreateTrailDto } from "../dtos/create-trail.dto";
+import { AppBindings, AppVariables } from "../types/env";
 
-export class CreateTrailControlle {
+export class CreateTrailController {
+  async create(c: Context<{ Bindings: AppBindings; Variables: AppVariables }>) {
+    try {
+      const trailData: CreateTrailDto = await c.req.json();
+      const entityId = Number(c.get("jwtPayload").userId);
 
-    async create(c: Context<{ Bindings: AppBindings }>) {
-        
-        try {
-            const trailId = c.req.param("trail");
-            const id = Number(trailId);
-            const result = await CreateTrailsUseCase.execute(c.env.DB, id);
-            if (result.error) {
-                return c.json({ error: result.error.message }, result.error.statusCode);
-            }
-            return c.json({ trail: result.trail }, 201);
-        } catch (error) {
-            console.error("Erro ao criar a trilha:", error);
-            return c.json({ error: "Erro interno do servidor" }, 500);
-        }    
+      const result = await CreateTrailUseCase.execute(
+        c.env.DB,
+        trailData,
+        entityId
+      );
 
-}
+      if (!result.success) {
+        const status = (result.error?.statusCode ??
+          500) as ContentfulStatusCode;
+        return c.json(
+          {
+            error: result.error?.message,
+          },
+          status
+        );
+      }
+
+      return c.json(
+        {
+          message: "Trilha criada com sucesso",
+          trail: result.trail,
+        },
+        201
+      );
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error("Erro no controller de criação de trilha:", error);
+
+      return c.json(
+        {
+          error: "Erro interno do servidor",
+          message: "Falha ao criar trilha",
+        },
+        500
+      );
+    }
+  }
 }

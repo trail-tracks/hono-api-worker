@@ -2,14 +2,14 @@ import { Context } from 'hono';
 import type { ContentfulStatusCode } from 'hono/utils/http-status';
 import { UploadAttachmentUseCase } from '../use-cases/upload-attachment.use-case';
 import { AppBindings } from '../types/env';
-import { uplaodAttachmentSchema } from '../dtos/upload-attachment.dto';
+import { uploadAttachmentSchema } from '../dtos/upload-attachment.dto';
 
 export class AttachmentsController {
   async upload(c: Context<{ Bindings: AppBindings }>) {
     try {
       const contentType = c.req.header('content-type');
       const rawParams = c.req.query();
-      const param = uplaodAttachmentSchema.parse(rawParams);
+      const param = uploadAttachmentSchema.parse(rawParams);
 
       if (!contentType || !contentType.includes('multipart/form-data')) {
         return c.json(
@@ -38,10 +38,7 @@ export class AttachmentsController {
 
       const MAX_SIZE_BYTES = 5 * 1024 * 1024; // 5MB
       if (fileCandidate.size > MAX_SIZE_BYTES) {
-        return c.json(
-          { error: 'Arquivo muito grande. Limite de 5MB.' },
-          413,
-        );
+        return c.json({ error: 'Arquivo muito grande. Limite de 5MB.' }, 413);
       }
 
       const result = await UploadAttachmentUseCase.execute({
@@ -52,11 +49,13 @@ export class AttachmentsController {
         accessKeyId: c.env.R2_ACCESS_KEY_ID,
         secretAccessKey: c.env.R2_SECRET_ACCESS_KEY,
         type: param.type,
-        entityId: Number(param.entityId),
+        entityId: param.entityId ? Number(param.entityId) : Number(c.get('jwtPayload').userId),
+        trailId: param.trailId ? Number(param.trailId) : undefined,
       });
 
       if (result.success !== true) {
-        const status = (result.error?.statusCode ?? 500) as ContentfulStatusCode;
+        const status = (result.error?.statusCode
+          ?? 500) as ContentfulStatusCode;
         return c.json(
           { error: result.error?.message ?? 'Falha ao processar o upload.' },
           status,

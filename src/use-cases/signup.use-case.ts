@@ -1,13 +1,17 @@
-import { hash } from 'bcryptjs';
-import { eq } from 'drizzle-orm';
-import { sign } from 'hono/jwt';
-import { getDb } from '../../drizzle/db';
-import { CreateEntityDtoType } from '../dtos/signup.dto';
-import { entity } from '../../drizzle/schema';
+import { hash } from "bcryptjs";
+import { eq } from "drizzle-orm";
+import { sign } from "hono/jwt";
+import { getDb } from "../../drizzle/db";
+import { CreateEntityDtoType } from "../dtos/signup.dto";
+import { entity } from "../../drizzle/schema";
 
 export interface CreateEntityUseCaseResponse {
   success: boolean;
   token?: string;
+  user?: {
+    name: string;
+    nameComplement: string | null;
+  };
   error?: {
     message: string;
     statusCode: number;
@@ -18,7 +22,7 @@ export class CreateEntityUseCase {
   static async execute(
     d1Database: D1Database,
     entityData: CreateEntityDtoType,
-    jwtSecret: string,
+    jwtSecret: string
   ): Promise<CreateEntityUseCaseResponse> {
     const db = getDb(d1Database);
 
@@ -34,7 +38,7 @@ export class CreateEntityUseCase {
         return {
           success: false,
           error: {
-            message: 'Email já cadastrado',
+            message: "Email já cadastrado",
             statusCode: 409, // Conflict
           },
         };
@@ -51,7 +55,7 @@ export class CreateEntityUseCase {
         return {
           success: false,
           error: {
-            message: 'Telefone já cadastrado',
+            message: "Telefone já cadastrado",
             statusCode: 409,
           },
         };
@@ -90,15 +94,19 @@ export class CreateEntityUseCase {
       return {
         success: true,
         token,
+        user: {
+          name: result.name,
+          nameComplement: result.nameComplement,
+        },
       };
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error('Erro no CreateEntityUseCase:', error);
+      console.error("Erro no CreateEntityUseCase:", error);
 
       return {
         success: false,
         error: {
-          message: 'Erro interno do servidor ao criar entity',
+          message: "Erro interno do servidor ao criar entity",
           statusCode: 500,
         },
       };
