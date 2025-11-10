@@ -11,7 +11,7 @@ const app = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 app.use(
   '*',
   cors({
-    origin: ['https://trilhainterativa.com.br', 'http://localhost:8081'],
+    origin: ['https://trilhainterativa.com.br', 'http://localhost:8081', 'http://localhost:3000'],
     allowHeaders: [
       'Content-Type',
       'Authorization',
