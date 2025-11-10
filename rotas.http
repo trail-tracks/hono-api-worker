@@ -181,7 +181,7 @@ Content-Type: application/json
 ### Upload attachment (entidade)
 #### types: galery | cover 
 
-POST http://localhost:8787/attachments?type=cover
+POST http://localhost:8787/attachments?type=galery
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
