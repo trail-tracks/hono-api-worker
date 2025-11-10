@@ -20,6 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Run migration
+        run: npm run db:migrate:prod
+
       - name: Install Wrangler
         run: npm install -g wrangler
 
