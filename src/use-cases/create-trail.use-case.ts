@@ -1,7 +1,7 @@
-import { getDb } from "../../drizzle/db";
-import { trail, entity } from "../../drizzle/schema";
-import { CreateTrailDto } from "../dtos/create-trail.dto";
-import { and, eq, isNull } from "drizzle-orm";
+import { and, eq, isNull } from 'drizzle-orm';
+import { getDb } from '../../drizzle/db';
+import { trail, entity } from '../../drizzle/schema';
+import { CreateTrailDto } from '../dtos/create-trail.dto';
 
 export interface CreateTrailUseCaseResponse {
   success: boolean;
@@ -27,7 +27,7 @@ export class CreateTrailUseCase {
   static async execute(
     d1Database: D1Database,
     trailData: CreateTrailDto,
-    entityId: number
+    entityId: number,
   ): Promise<CreateTrailUseCaseResponse> {
     const db = getDb(d1Database);
 
@@ -43,7 +43,7 @@ export class CreateTrailUseCase {
         return {
           success: false,
           error: {
-            message: "Entidade não encontrada ou foi excluída",
+            message: 'Entidade não encontrada ou foi excluída',
             statusCode: 404,
           },
         };
@@ -60,7 +60,7 @@ export class CreateTrailUseCase {
           distance: trailData.distance,
           difficulty: trailData.difficulty,
           safetyTips: trailData.safetyTips,
-          entityId: entityId,
+          entityId,
         })
         .returning()
         .get();
@@ -71,12 +71,12 @@ export class CreateTrailUseCase {
       };
     } catch (error) {
       // eslint-disable-next-line no-console
-      console.error("Erro ao criar trilha:", error);
+      console.error('Erro ao criar trilha:', error);
 
       return {
         success: false,
         error: {
-          message: "Erro interno do servidor ao criar trilha",
+          message: 'Erro interno do servidor ao criar trilha',
           statusCode: 500,
         },
       };

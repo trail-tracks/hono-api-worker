@@ -194,7 +194,7 @@ Content-Type: image/jpeg
 ### Upload attachment (trilha) - capa
 #### Substitua "1" pelo ID da trilha criada
 
-POST http://localhost:8787/attachments?type=cover&trailId=1
+POST http://localhost:8787/attachments?type=cover&trailId=2
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
