@@ -1,9 +1,11 @@
-import { compare } from "bcryptjs";
-import { and, eq, isNull, like } from "drizzle-orm";
-import { sign } from "hono/jwt";
-import { getDb } from "../../drizzle/db";
-import { attachment, entity } from "../../drizzle/schema";
-import { LoginDTO } from "../dtos/login.dto";
+import { compare } from 'bcryptjs';
+import {
+  and, eq, isNull, like,
+} from 'drizzle-orm';
+import { sign } from 'hono/jwt';
+import { getDb } from '../../drizzle/db';
+import { attachment, entity } from '../../drizzle/schema';
+import { LoginDTO } from '../dtos/login.dto';
 
 export interface LoginUseCaseResponse {
   success: boolean;
@@ -23,7 +25,7 @@ export class LoginUseCase {
   static async execute(
     d1Database: D1Database,
     loginData: LoginDTO,
-    jwtSecret: string
+    jwtSecret: string,
   ): Promise<LoginUseCaseResponse> {
     const db = getDb(d1Database);
     try {
@@ -37,7 +39,7 @@ export class LoginUseCase {
         return {
           success: false,
           error: {
-            message: "Credenciais Inválidas",
+            message: 'Credenciais Inválidas',
             statusCode: 401,
           },
         };
@@ -45,14 +47,14 @@ export class LoginUseCase {
 
       const passwordMatches = await compare(
         loginData.password,
-        existingUser.password
+        existingUser.password,
       );
 
       if (!passwordMatches) {
         return {
           success: false,
           error: {
-            message: "Credenciais Inválidas",
+            message: 'Credenciais Inválidas',
             statusCode: 401,
           },
         };
@@ -64,8 +66,8 @@ export class LoginUseCase {
         .where(
           and(
             eq(attachment.entityId, existingUser.id),
-            like(attachment.url, "%/cover/%")
-          )
+            like(attachment.url, '%/cover/%'),
+          ),
         )
         .get();
 

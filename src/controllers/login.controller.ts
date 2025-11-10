@@ -22,10 +22,12 @@ export class LoginController {
         );
       }
 
+      // Trocar o sameSite para lax quando estiver em produção
       setCookie(c, 'access_token', result.token!, {
         httpOnly: true,
         path: '/',
-        sameSite: 'lax',
+        sameSite: 'none',
+        secure: true,
       });
 
       return c.json(
