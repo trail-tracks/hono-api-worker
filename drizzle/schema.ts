@@ -67,5 +67,9 @@ export const pointOfInterest = sqliteTable("points_of_interest", {
   name: text("name").notNull(),
   shortDescription: text("description"),
   description: text("long_description"),
-});
+  trailId: integer("trail_id").references(() => trail.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  })
 
+});
