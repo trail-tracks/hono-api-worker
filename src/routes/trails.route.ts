@@ -16,6 +16,12 @@ const listTrailsController = new ListTrailsController();
 const createTrailController = new CreateTrailController();
 const editTrailController = new EditTrailController();
 
+trailsRoutes.get(
+  '/',
+  authMiddleware,
+  listTrailsController.list.bind(listTrailsController),
+);
+
 trailsRoutes.post(
   '/',
   authMiddleware,

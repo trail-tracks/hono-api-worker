@@ -147,7 +147,7 @@ Content-Type: application/json
 # }
 
 ### List Trails by entity ID
-GET http://localhost:8787/trails/1
+GET http://localhost:8787/trails
 
 
 # response: {
@@ -174,7 +174,6 @@ Content-Type: application/json
 {
 	"id": 1,
 	"name": "Trilha das Pedras Grandes",
-
 }
 
 
@@ -194,7 +193,7 @@ Content-Type: image/jpeg
 ### Upload attachment (trilha) - capa
 #### Substitua "1" pelo ID da trilha criada
 
-POST http://localhost:8787/attachments?type=cover&trailId=2
+POST http://localhost:8787/attachments?type=cover&trailId=10
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123

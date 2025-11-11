@@ -1,6 +1,8 @@
-import { isNull } from 'drizzle-orm';
+import {
+  and, eq, isNull, like,
+} from 'drizzle-orm';
 import { getDb } from '../../drizzle/db';
-import { entity } from '../../drizzle/schema';
+import { attachment, entity } from '../../drizzle/schema';
 
 export interface ListEntitiesUseCaseResponse {
   success: boolean;
@@ -40,8 +42,16 @@ export class ListEntitiesUseCase {
           phone: entity.phone,
           nameComplement: entity.nameComplement,
           addressComplement: entity.addressComplement,
+          coverUrl: attachment.url,
         })
         .from(entity)
+        .leftJoin(
+          attachment,
+          and(
+            eq(entity.id, attachment.entityId),
+            like(attachment.url, '%/cover/%'),
+          ),
+        )
         .where(isNull(entity.deletedAt))
         .all();
 
