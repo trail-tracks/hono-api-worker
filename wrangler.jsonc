@@ -6,11 +6,8 @@
   "compatibility_date": "2025-08-19",
   "build": {
     "command": "npm run build",
-    "upload": {
-      "format": "modules",
-      "dir": "./dist"
-    }
   },
+  "keep_vars": true,
   "d1_databases": [
     {
       "binding": "DB",
@@ -19,32 +16,4 @@
       "migrations_dir": "drizzle/migrations"
     }
   ],
-  "vars": {
-    "JWT_SECRET": "SUA-SECRET-DE-TESTE"
-  }
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
-  // "kv_namespaces": [
-  //   {
-  //     "binding": "MY_KV_NAMESPACE",
-  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  //   }
-  // ],
-  // "r2_buckets": [
-  //   {
-  //     "binding": "MY_BUCKET",
-  //     "bucket_name": "my-bucket"
-  //   }
-  // ],
-  // "ai": {
-  //   "binding": "AI"
-  // },
-  // "observability": {
-  //   "enabled": true,
-  //   "head_sampling_rate": 1
-  // }
 }

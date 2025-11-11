@@ -1,31 +1,33 @@
-import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
-import { hash } from 'bcryptjs';
-import { editSchema } from '../dtos/edit.dto';
+import { Hono } from 'hono';
+import { DeleteEntityController } from '../controllers/delete-entity.controller';
 import { EditEntityController } from '../controllers/edit-entity.controller';
 import { LoginController } from '../controllers/login.controller';
-import { loginSchema } from '../dtos/login.dto';
-import { getDb } from '../../drizzle/db';
-import { entity } from '../../drizzle/schema';
-import { authMiddleware } from '../middlewares/auth-middleware';
-import { CreateEntityDto } from '../dtos/signup.dto';
 import { EntitiesController } from '../controllers/signup-entity.controller';
+import { deleteSchema } from '../dtos/delete.dto';
+import { editSchema } from '../dtos/edit.dto';
+import { loginSchema } from '../dtos/login.dto';
+import { CreateEntityDto } from '../dtos/signup.dto';
+import { AppBindings, AppVariables } from '../types/env';
+import { authMiddleware } from '../middlewares/auth-middleware';
 
-type Env = { DB: D1Database };
-type Variables = {
-  jwtPayload: {
-    userId: string;
-  };
-};
-
-const authRoutes = new Hono<{ Bindings: Env, Variables: Variables }>();
+const authRoutes = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 const editEntityController = new EditEntityController();
+const deleteEntityController = new DeleteEntityController();
+const entitiesController = new EntitiesController();
 
 authRoutes.put(
   '/edit',
   authMiddleware,
   zValidator('json', editSchema),
   editEntityController.edit.bind(editEntityController),
+);
+
+authRoutes.delete(
+  '/delete',
+  authMiddleware,
+  zValidator('json', deleteSchema),
+  deleteEntityController.delete.bind(deleteEntityController),
 );
 
 const loginController = new LoginController();
@@ -40,36 +42,7 @@ authRoutes.post(
 authRoutes.post(
   '/signup',
   zValidator('json', CreateEntityDto),
-  (c) => EntitiesController.create(c)
+  entitiesController.create.bind(entitiesController),
 );
-
-authRoutes.post('/register-entity', async (c) => {
-  try {
-    const data = await c.req.json();
-
-    // Hash da senha
-    const hashedPassword = await hash(data.password, 10);
-
-    // Insere a nova entidade no banco
-    await getDb(c.env.DB).insert(entity).values({
-      name: data.name,
-      nameComplement: data.nameComplement || null,
-      email: data.email,
-      password: hashedPassword,
-      zipCode: data.zipCode,
-      address: data.address,
-      number: data.number,
-      city: data.city,
-      state: data.state,
-      addressComplement: data.addressComplement || null,
-      phone: data.phone,
-    }).run();
-
-    return c.json({ message: 'Entity registered successfully' }, 201);
-  } catch (error) {
-    console.error(error);
-    return c.json({ error: 'Internal server error' }, 500);
-  }
-});
 
 export default authRoutes;

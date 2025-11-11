@@ -1,44 +1,52 @@
-import { Context } from "hono";
-import { CreateEntityDto, EntityResponseDto } from "../dtos/signup.dto";
-import { CreateEntityUseCase } from "../use-cases/signup.use-case";
+import { Context } from 'hono';
 import { z } from 'zod';
-
-type Env = {
-  Bindings: {
-    DB: D1Database,
-    JWT_SECRET: string,
-  }
-}
+import { setCookie } from 'hono/cookie';
+import { ContentfulStatusCode } from 'hono/utils/http-status';
+import { CreateEntityDto } from '../dtos/signup.dto';
+import { CreateEntityUseCase } from '../use-cases/signup.use-case';
+import { AppBindings } from '../types/env';
 
 export class EntitiesController {
   // Criar uma nova entity
 
-  static async create(c: Context<Env>) {
+  async create(c: Context<{ Bindings: AppBindings }>) {
     try {
       const entityData = await c.req.json();
       const validatedData = CreateEntityDto.parse(entityData);
+      const jwtSecret = c.env.JWT_SECRET;
 
-      const result = await CreateEntityUseCase.execute(c.env.DB, validatedData);
+      const result = await CreateEntityUseCase.execute(
+        c.env.DB,
+        validatedData,
+        jwtSecret,
+      );
 
       if (!result.success) {
         return c.json(
           {
             error: result.error,
           },
-          400,
+          result.error?.statusCode as ContentfulStatusCode,
         );
       }
+
+      setCookie(c, 'access_token', result.token!, {
+        httpOnly: true,
+        path: '/',
+        sameSite: 'none',
+      });
 
       return c.json(
         {
           message: 'Entity criada com sucesso',
-          entity: EntityResponseDto.parse(result.entity),
+          user: result.user,
         },
         201,
       );
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Erro no controller de criação:', error);
-      
+
       if (error instanceof z.ZodError) {
         return c.json(
           {

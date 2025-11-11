@@ -1,17 +1,19 @@
 import { Context } from 'hono';
 import { EditDTO } from '../dtos/edit.dto';
 import { EditEntityUseCase } from '../use-cases/edit.use-case';
-
-type Env = {
-  Bindings: { DB: D1Database };
-};
+import { AppBindings } from '../types/env';
 
 export class EditEntityController {
-  async edit(c: Context<Env>) {
+  async edit(c: Context<{ Bindings: AppBindings }>) {
     try {
       const entityData: EditDTO = await c.req.json();
+      const entityId = Number(c.get('jwtPayload').userId);
 
-      const result = await EditEntityUseCase.execute(c.env.DB, entityData);
+      const result = await EditEntityUseCase.execute(
+        c.env.DB,
+        entityData,
+        entityId,
+      );
 
       if (!result.success) {
         return c.json(
@@ -23,8 +25,6 @@ export class EditEntityController {
         );
       }
 
-      console.log(result);
-
       return c.json(
         {
           message: 'Entidade editada com sucesso',
@@ -33,6 +33,7 @@ export class EditEntityController {
         200,
       );
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Erro no controller de edição:', error);
       return c.json(
         {

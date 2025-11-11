@@ -1,22 +1,24 @@
-import { eq } from 'drizzle-orm';
 import { compare } from 'bcryptjs';
+import {
+  and, eq, isNull, like,
+} from 'drizzle-orm';
 import { sign } from 'hono/jwt';
 import { getDb } from '../../drizzle/db';
-import { entity } from '../../drizzle/schema';
+import { attachment, entity } from '../../drizzle/schema';
 import { LoginDTO } from '../dtos/login.dto';
 
 export interface LoginUseCaseResponse {
-  success: boolean
+  success: boolean;
   user?: {
-    id: number
-    name: string
-    email: string
-  }
+    name: string;
+    nameComplement: string | null;
+    coverUrl: string | null;
+  };
   token?: string;
   error?: {
-    message: string
-    statusCode: number
-  }
+    message: string;
+    statusCode: number;
+  };
 }
 
 export class LoginUseCase {
@@ -30,7 +32,7 @@ export class LoginUseCase {
       const existingUser = await db
         .select()
         .from(entity)
-        .where(eq(entity.email, loginData.email))
+        .where(and(eq(entity.email, loginData.email), isNull(entity.deletedAt)))
         .get();
 
       if (!existingUser) {
@@ -43,7 +45,10 @@ export class LoginUseCase {
         };
       }
 
-      const passwordMatches = await compare(loginData.password, existingUser.password);
+      const passwordMatches = await compare(
+        loginData.password,
+        existingUser.password,
+      );
 
       if (!passwordMatches) {
         return {
@@ -55,6 +60,20 @@ export class LoginUseCase {
         };
       }
 
+      const entityCover = await db
+        .select()
+        .from(attachment)
+        .where(
+          and(
+            eq(attachment.entityId, existingUser.id),
+            like(attachment.url, '%/cover/%'),
+          ),
+        )
+        .get();
+
+      // Garantir que coverUrl seja null se não houver capa ou url estiver undefined
+      const coverUrl = entityCover?.url ?? null;
+
       const payload = {
         sub: existingUser.id,
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // Token expires in 24 hours
@@ -65,9 +84,9 @@ export class LoginUseCase {
       return {
         success: true,
         user: {
-          id: existingUser.id,
-          email: existingUser.email,
           name: existingUser.name,
+          nameComplement: existingUser.nameComplement,
+          coverUrl,
         },
         token,
       };
