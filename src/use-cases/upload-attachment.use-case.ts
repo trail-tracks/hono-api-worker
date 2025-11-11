@@ -4,7 +4,6 @@ import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { attachment } from '../../drizzle/schema';
 import { getDb } from '../../drizzle/db';
 
-
 // Define as interfaces de entrada e saída do caso de uso
 export interface UploadAttachmentUseCaseInput {
   d1Database: D1Database;
@@ -34,8 +33,7 @@ export interface UploadAttachmentUseCaseResponse {
   };
 }
 
-
-//Define um client do S3 para upload de arquivos para o R2
+// Define um client do S3 para upload de arquivos para o R2
 export class UploadAttachmentUseCase {
   private static db: DrizzleD1Database<Record<string, never>> & { $client: D1Database; };
 
@@ -56,7 +54,6 @@ export class UploadAttachmentUseCase {
       forcePathStyle: true,
     });
   }
-
 
   // Executa o caso de uso de upload de anexo
   static async execute(
