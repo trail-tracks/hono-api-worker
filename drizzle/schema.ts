@@ -1,3 +1,4 @@
+import { desc } from "drizzle-orm";
 import { sqliteTable, integer, text } from "drizzle-orm/sqlite-core";
 
 export const entity = sqliteTable("entities", {
@@ -19,11 +20,11 @@ export const entity = sqliteTable("entities", {
 export const trail = sqliteTable("trails", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
+  shortDescription: text("short_description").notNull(),
+  duration: text("duration").notNull(),
+  distance: text("distance").notNull(),
+  difficulty: text("difficulty").notNull(),
   description: text("description"),
-  shortDescription: text("short_description"),
-  duration: integer("duration"),
-  distance: integer("distance"),
-  difficulty: text("difficulty"),
   safetyTips: text("safety_tips"),
   entityId: integer("entity_id").references(() => entity.id, {
     onDelete: "cascade",
@@ -80,4 +81,16 @@ export const attachment = sqliteTable("attachments", {
   updatedAt: integer("updated_at", { mode: "timestamp" })
     .$defaultFn(() => new Date())
     .$onUpdateFn(() => new Date()),
+});
+
+export const pointOfInterest = sqliteTable("points_of_interest", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  shortDescription: text("description"),
+  description: text("long_description"),
+  trailId: integer("trail_id").references(() => trail.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  })
+
 });
