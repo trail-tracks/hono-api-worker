@@ -37,6 +37,23 @@ export const trail = sqliteTable("trails", {
     .$onUpdateFn(() => new Date()),
 });
 
+export const pointOfInterest = sqliteTable("points_of_interest", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  name: text("name").notNull(),
+  shortDescription: text("short_description").notNull(),
+  description: text("description"),
+  trailId: integer("trail_id").references(() => trail.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }).notNull(),
+  createdAt: integer("created_at", { mode: "timestamp" }).$defaultFn(
+    () => new Date()
+  ),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .$defaultFn(() => new Date())
+    .$onUpdateFn(() => new Date()),
+});
+
 export const attachment = sqliteTable("attachments", {
   id: integer("id").primaryKey({ autoIncrement: true }),
   uuid: text("uuid").notNull().unique(),
@@ -50,6 +67,10 @@ export const attachment = sqliteTable("attachments", {
     onUpdate: "cascade",
   }),
   trailId: integer("trail_id").references(() => trail.id, {
+    onDelete: "set null",
+    onUpdate: "cascade",
+  }),
+  pointOfInterestId: integer("point_of_interest_id").references(() => pointOfInterest.id, {
     onDelete: "set null",
     onUpdate: "cascade",
   }),
