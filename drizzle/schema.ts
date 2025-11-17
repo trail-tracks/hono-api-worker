@@ -83,14 +83,3 @@ export const attachment = sqliteTable("attachments", {
     .$onUpdateFn(() => new Date()),
 });
 
-export const pointOfInterest = sqliteTable("points_of_interest", {
-  id: integer("id").primaryKey({ autoIncrement: true }),
-  name: text("name").notNull(),
-  shortDescription: text("description"),
-  description: text("long_description"),
-  trailId: integer("trail_id").references(() => trail.id, {
-    onDelete: "cascade",
-    onUpdate: "cascade",
-  })
-
-});

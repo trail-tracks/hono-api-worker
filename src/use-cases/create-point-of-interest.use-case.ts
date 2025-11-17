@@ -29,7 +29,7 @@ export class CreatePointOfInterestUseCase {
     const db = getDb(d1Database);
 
     try {
-      // Verificar se a trilha existe e pertence à entidade autenticada
+      // Verificar se a trilha existe
       const existingTrail = await db
         .select()
         .from(trail)
