@@ -11,8 +11,8 @@ export interface ListTrailsUseCaseResponse {
     name: string;
     description: string | null;
     shortDescription: string | null;
-    duration: number | null;
-    distance: number | null;
+    duration: string | null;
+    distance: string | null;
     difficulty: string | null;
     coverUrl?: string | null;
   }[];
