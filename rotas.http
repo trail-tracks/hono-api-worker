@@ -213,5 +213,12 @@ Content-Type: application/json
 # }
 
 ### Upload de imagem para Ponto de Interesse
-#### Substitua "1" pelo ID do ponto de interesse criado
-### Upload de imagem para galeria do Ponto de Interesse
+POST http://localhost:8787/attachments?type=cover&pointOfInterestId=1
+Content-Type: multipart/form-data; boundary=boundary123
+
+--boundary123
+Content-Disposition: form-data; name="file"; filename="foto.jpg"
+Content-Type: image/jpeg
+
+< ./tests/images/sample.jpg
+--boundary123--
