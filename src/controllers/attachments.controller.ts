@@ -51,6 +51,7 @@ export class AttachmentsController {
         type: param.type,
         entityId: param.entityId ? Number(param.entityId) : Number(c.get('jwtPayload').userId),
         trailId: param.trailId ? Number(param.trailId) : undefined,
+        pointOfInterestId: param.pointOfInterestId ? Number(param.pointOfInterestId) : undefined,
       });
 
       if (result.success !== true) {

@@ -7,6 +7,9 @@
   "build": {
     "command": "npm run build",
   },
+  "vars": {
+    "JWT_SECRET": "dfsdgsgfgdgf"
+  },
   "keep_vars": true,
   "d1_databases": [
     {

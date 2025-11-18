@@ -5,6 +5,7 @@ import attachmentsRoutes from './routes/attachments.routes';
 import { AppBindings, AppVariables } from './types/env';
 import trailsRoutes from './routes/trails.route';
 import entitiesRoutes from './routes/entities.routes';
+import pointsOfInterestRoutes from './routes/points-of-interest.routes';
 
 const app = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 
@@ -30,5 +31,6 @@ app.route('/auth', authRoutes);
 app.route('/attachments', attachmentsRoutes);
 app.route('/trails', trailsRoutes);
 app.route('/entities', entitiesRoutes);
+app.route('/points-of-interest', pointsOfInterestRoutes);
 
 export default app;

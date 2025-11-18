@@ -3,6 +3,7 @@ import {
 } from 'drizzle-orm';
 import { getDb } from '../../drizzle/db';
 import { attachment, entity, trail } from '../../drizzle/schema';
+import { CreatePointOfInterestUseCase } from './create-point-of-interest.use-case';
 
 export interface ListTrailsUseCaseResponse {
   success: boolean;
@@ -11,8 +12,8 @@ export interface ListTrailsUseCaseResponse {
     name: string;
     description: string | null;
     shortDescription: string | null;
-    duration: number | null;
-    distance: number | null;
+    duration: string | null;
+    distance: string | null;
     difficulty: string | null;
     coverUrl?: string | null;
   }[];
