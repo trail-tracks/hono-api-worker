@@ -22,11 +22,11 @@ export class LoginController {
         );
       }
 
-      // Trocar o sameSite para lax quando estiver em produção
+      // Trocar o sameSite para none quando estiver em produção
       setCookie(c, 'access_token', result.token!, {
         httpOnly: true,
         path: '/',
-        sameSite: 'none',
+        sameSite: 'lax',
       });
 
       return c.json(
