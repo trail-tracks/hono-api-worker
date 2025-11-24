@@ -41,6 +41,26 @@ export class AttachmentsController {
         return c.json({ error: 'Arquivo muito grande. Limite de 5MB.' }, 413);
       }
 
+      // Lógica de priorização:
+      // 1. Se trailId foi enviado, usa apenas trailId
+      // 2. Se pointOfInterestId foi enviado, usa apenas pointOfInterestId  
+      // 3. Se entityId foi enviado, usa apenas entityId
+      // 4. Se nenhum foi enviado, usa o userId do JWT como entityId
+      let entityId: number | undefined;
+      let trailId: number | undefined;
+      let pointOfInterestId: number | undefined;
+
+      if (param.trailId) {
+        trailId = Number(param.trailId);
+      } else if (param.pointOfInterestId) {
+        pointOfInterestId = Number(param.pointOfInterestId);
+      } else if (param.entityId) {
+        entityId = Number(param.entityId);
+      } else {
+        // Se nenhum parâmetro foi enviado, usa o userId do JWT
+        entityId = Number(c.get('jwtPayload').userId);
+      }
+
       const result = await UploadAttachmentUseCase.execute({
         d1Database: c.env.DB,
         file: fileCandidate,
@@ -49,9 +69,9 @@ export class AttachmentsController {
         accessKeyId: c.env.R2_ACCESS_KEY_ID,
         secretAccessKey: c.env.R2_SECRET_ACCESS_KEY,
         type: param.type,
-        entityId: param.entityId ? Number(param.entityId) : Number(c.get('jwtPayload').userId),
-        trailId: param.trailId ? Number(param.trailId) : undefined,
-        pointOfInterestId: param.pointOfInterestId ? Number(param.pointOfInterestId) : undefined,
+        entityId,
+        trailId,
+        pointOfInterestId,
       });
 
       if (result.success !== true) {
