@@ -7,13 +7,13 @@ export interface GetTrailByIdUseCaseResponse {
   trail?: {
     id: number;
     name: string;
-    description: string | null;
-    shortDescription: string | null;
-    duration: number | null;
-    distance: number | null;
-    difficulty: string | null;
-    safetyTips: string | null;
-    coverUrl: string | null;
+    description?: string;
+    shortDescription: string;
+    duration: string;
+    distance: string;
+    difficulty: string;
+    safetyTips?: string;
+    coverUrl?: string;
     gallery: {
       id: number;
       url: string | null;
@@ -38,7 +38,7 @@ export class GetTrailByIdUseCase {
         .select({
           id: trail.id,
           name: trail.name,
-          description: trail.description,
+          description: trail.description ?? null,
           shortDescription: trail.shortDescription,
           duration: trail.duration,
           distance: trail.distance,
@@ -91,8 +91,15 @@ export class GetTrailByIdUseCase {
       return {
         success: true,
         trail: {
-          ...trailData,
-          coverUrl: coverImage?.url || null,
+          id: trailData.id,
+          name: trailData.name,
+          description: trailData.description ?? undefined,
+          shortDescription: trailData.shortDescription,
+          duration: trailData.duration,
+          distance: trailData.distance,
+          difficulty: trailData.difficulty,
+          safetyTips: trailData.safetyTips ?? undefined,
+          coverUrl: coverImage?.url ?? undefined,
           gallery: galleryImages,
         },
       };
