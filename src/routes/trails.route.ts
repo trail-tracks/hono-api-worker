@@ -20,7 +20,6 @@ const getTrailByIdController = new GetTrailByIdController();
 
 trailsRoutes.get(
   '/',
-  authMiddleware,
   listTrailsController.list.bind(listTrailsController),
 );
 
