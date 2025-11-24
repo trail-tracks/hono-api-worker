@@ -147,7 +147,7 @@ Content-Type: application/json
 # }
 
 ### List Trails by entity ID
-GET http://localhost:8787/trails
+GET http://localhost:8787/trails/1
 
 
 # response: {
@@ -213,7 +213,7 @@ Content-Type: application/json
 # }
 
 ### Upload de imagem para Ponto de Interesse
-POST http://localhost:8787/attachments?type=cover&pointOfInterestId=1
+POST http://localhost:8787/attachments?type=cover&trailId=1
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
