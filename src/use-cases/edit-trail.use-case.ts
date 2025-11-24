@@ -10,8 +10,8 @@ export interface EditTrailUseCaseResponse {
     name: string;
     description: string | null;
     shortDescription: string | null;
-    duration: number | null;
-    distance: number | null;
+    duration: string | null;
+    distance: string | null;
     difficulty: string | null;
     entityId: number | null;
     createdAt: Date | null;
@@ -56,8 +56,8 @@ export class EditTrailUseCase {
           name: trailData.name,
           description: trailData.description,
           shortDescription: trailData.shortDescription,
-          duration: trailData.duration,
-          distance: trailData.distance,
+          duration: String(trailData.duration),
+          distance: String(trailData.distance),
           difficulty: trailData.difficulty,
           safetyTips: trailData.safetyTips,
         })
