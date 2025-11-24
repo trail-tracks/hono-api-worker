@@ -222,3 +222,35 @@ Content-Type: image/jpeg
 
 < ./tests/images/sample.jpg
 --boundary123--
+
+### Get Trail by ID (buscar trilha completa com capa e galeria)
+#### Substitua "1" pelo ID da trilha criada
+
+GET http://localhost:8787/trails/trail/1
+
+# response: {
+#   "message": "Trilha encontrada com sucesso",
+#   "trail": {
+#     "id": 1,
+#     "name": "Trilha da Pedra Grande",
+#     "description": "Esta trilha leva você através da mata atlântica até o topo da Pedra Grande, onde você terá uma vista de 360 graus da região. O caminho é bem marcado mas possui trechos íngremes. Ideal para quem busca um desafio moderado e quer apreciar a natureza.",
+#     "shortDescription": "Uma trilha desafiadora com vista panorâmica incrível da cidade.",
+#     "duration": 180,
+#     "distance": 5.5,
+#     "difficulty": "moderado",
+#     "safetyTips": "Leve bastante água (mínimo 2 litros por pessoa), protetor solar, boné e lanches energéticos. Use calçados apropriados para trilha. Evite fazer a trilha em dias chuvosos pois o caminho fica escorregadio. Não se esqueça de levar repelente de insetos.",
+#     "coverUrl": "https://example.com/cover/trail-1.jpg",
+#     "gallery": [
+#       {
+#         "id": 1,
+#         "url": "https://example.com/galery/trail-1-img1.jpg",
+#         "uuid": "abc123-def456-ghi789"
+#       },
+#       {
+#         "id": 2,
+#         "url": "https://example.com/galery/trail-1-img2.jpg",
+#         "uuid": "xyz789-uvw456-rst123"
+#       }
+#     ]
+#   }
+# }
