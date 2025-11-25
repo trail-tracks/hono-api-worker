@@ -10,7 +10,7 @@ export class ListTrailsController {
 
       const result = await ListTrailsUseCase.execute(
         c.env.DB,
-        entityId ? parseInt(entityId, 10) : Number(c.get('jwtPayload')),
+        entityId ? parseInt(entityId, 10) : Number(c.get('jwtPayload').userId),
       );
 
       if (!result.success) {
