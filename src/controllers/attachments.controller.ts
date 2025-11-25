@@ -43,7 +43,7 @@ export class AttachmentsController {
 
       // Lógica de priorização:
       // 1. Se trailId foi enviado, usa apenas trailId
-      // 2. Se pointOfInterestId foi enviado, usa apenas pointOfInterestId  
+      // 2. Se pointOfInterestId foi enviado, usa apenas pointOfInterestId
       // 3. Se entityId foi enviado, usa apenas entityId
       // 4. Se nenhum foi enviado, usa o userId do JWT como entityId
       let entityId: number | undefined;

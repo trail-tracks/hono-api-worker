@@ -29,7 +29,6 @@ export class ListTrailsUseCase {
   ): Promise<ListTrailsUseCaseResponse> {
     const db = getDb(d1Database);
     try {
-      // Verificar se a entidade existe e não foi deletada
       const existingEntity = await db
         .select()
         .from(entity)
