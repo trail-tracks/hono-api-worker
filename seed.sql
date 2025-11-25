@@ -9,19 +9,19 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
         1, 
         'Entidade Teste 1', 
         'entidade1@teste.com', 
-        '$2b$10$f/N5oQ5.SADFfSdzxn2gRuhx5FfSwbF0.8jce34pgxH.WxEKeBmuu', 
+        '$2b$10$8LaUB/bnZNaKPnEiOAZsIev5esgVnN5buJefXd6LtO7oH/8WAasve', 
         '12345-678', 'Rua das Flores', '100', 'São Paulo', 'SP', '11999999999'
       );
     
 
       INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, entity_id) 
       VALUES (
-        '327f930a-8a05-44aa-8268-297bcc67badb',
+        '1cc820ae-584f-4899-b878-8abd15cac8ea',
         'trilha-interativa',
-        'entities/1-1764026946304-entity.png',
+        'entities/1-1764029989019-entity.png',
         'image/png',
         24833,
-        'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/entities/1-1764026946304-entity.png',
+        'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/entities/1-1764029989019-entity.png',
         1
       );
     
@@ -37,12 +37,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '6a3137cb-4b87-4d62-a699-defa2f1da15c',
+          '15a6d4c2-1caf-4304-b911-63d5b70f0aba',
           'trilha-interativa',
-          'trails/cover/1-1764026946960-trail.png',
+          'trails/cover/1-1764029989695-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/1-1764026946960-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/1-1764029989695-trail.png',
           1
         );
       
@@ -59,12 +59,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '2afcda91-844e-4945-b7b0-3799b2253e41',
+            '44e5f5f5-ab2d-4ac9-bf36-453b44156024',
             'trilha-interativa',
-            'pois/1-1764026947495-poi.png',
+            'pois/1-1764029990243-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/1-1764026947495-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/1-1764029990243-poi.png',
             1
           );
         
@@ -81,12 +81,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '36ab60a0-55f3-4da8-8fdd-9fc5c38f59d7',
+            '91a0e20e-8bb0-4006-956d-04de4f408588',
             'trilha-interativa',
-            'pois/2-1764026948032-poi.png',
+            'pois/2-1764029990758-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/2-1764026948032-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/2-1764029990758-poi.png',
             2
           );
         
@@ -102,12 +102,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          'bd9ab735-86bb-4f40-b7b1-bd5bb061dfee',
+          'a81e3611-cb1b-46e6-aeba-06d905c8b9fe',
           'trilha-interativa',
-          'trails/cover/2-1764026948592-trail.png',
+          'trails/cover/2-1764029991313-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/2-1764026948592-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/2-1764029991313-trail.png',
           2
         );
       
@@ -124,12 +124,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '758623d6-7ea9-4da5-90e4-d0945418abd0',
+            '50cd0c05-b4b3-47f2-89bd-3810a6a79ec8',
             'trilha-interativa',
-            'pois/3-1764026949114-poi.png',
+            'pois/3-1764029991845-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/3-1764026949114-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/3-1764029991845-poi.png',
             3
           );
         
@@ -146,12 +146,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '7a7022f3-e622-409b-8642-152a0d0125ab',
+            '026d65c1-a4b1-46e8-acde-06546d46cf4e',
             'trilha-interativa',
-            'pois/4-1764026949767-poi.png',
+            'pois/4-1764029992404-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/4-1764026949767-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/4-1764029992404-poi.png',
             4
           );
         
@@ -167,12 +167,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '3ff8c8a5-29bd-4d6f-81f4-b5109ba8de1c',
+          '72cf9489-d8b6-49b9-8c45-614d42c130c3',
           'trilha-interativa',
-          'trails/cover/3-1764026950307-trail.png',
+          'trails/cover/3-1764029992915-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/3-1764026950307-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/3-1764029992915-trail.png',
           3
         );
       
@@ -189,12 +189,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            'd689c472-b0b1-4104-9b1a-d023eb08de1f',
+            '68f1a321-cf9a-4d06-8fd8-c3c8c3ce6865',
             'trilha-interativa',
-            'pois/5-1764026950895-poi.png',
+            'pois/5-1764029993465-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/5-1764026950895-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/5-1764029993465-poi.png',
             5
           );
         
@@ -211,12 +211,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '128c6ae4-16c4-4a27-8868-9407663a5f68',
+            '2eaa9c32-0ccb-4a10-993f-772da101f2bb',
             'trilha-interativa',
-            'pois/6-1764026951442-poi.png',
+            'pois/6-1764029994011-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/6-1764026951442-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/6-1764029994011-poi.png',
             6
           );
         
@@ -226,19 +226,19 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
         2, 
         'Entidade Teste 2', 
         'entidade2@teste.com', 
-        '$2b$10$SXLCzjyfoLQtTUtAwDD1JuQMAFM88/FiH9tjqO.k88LZTeEaTo4z2', 
+        '$2b$10$WtiIueta2BDlde/aQB41reQALY0Td3IVWh2C3uWrUefh6aGU5ldZy', 
         '12345-678', 'Rua das Flores', '100', 'São Paulo', 'SP', '11999999999'
       );
     
 
       INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, entity_id) 
       VALUES (
-        'fda9afb1-7ff7-4932-bf51-b2b41ceb4ad3',
+        'e0da4c2c-53b7-4327-a0bd-32e9e3023e03',
         'trilha-interativa',
-        'entities/2-1764026952058-entity.png',
+        'entities/2-1764029995198-entity.png',
         'image/png',
         24833,
-        'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/entities/2-1764026952058-entity.png',
+        'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/entities/2-1764029995198-entity.png',
         2
       );
     
@@ -254,12 +254,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '8703ae1c-b578-43c4-bc79-d3119845d635',
+          '25d99351-a489-4ffa-814c-e500f5b3fa97',
           'trilha-interativa',
-          'trails/cover/4-1764026952576-trail.png',
+          'trails/cover/4-1764029995731-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/4-1764026952576-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/4-1764029995731-trail.png',
           4
         );
       
@@ -276,12 +276,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            'd79be8ff-1044-4e72-b310-8a16f497bf61',
+            '74562051-7f1a-499f-8903-7ea640449c2b',
             'trilha-interativa',
-            'pois/7-1764026953120-poi.png',
+            'pois/7-1764029996589-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/7-1764026953120-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/7-1764029996589-poi.png',
             7
           );
         
@@ -298,12 +298,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '79c8c9f7-0bb2-451b-a844-3fe0dcff5eaf',
+            '6bd80360-9230-4921-a616-b59c30778f92',
             'trilha-interativa',
-            'pois/8-1764026953660-poi.png',
+            'pois/8-1764030069924-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/8-1764026953660-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/8-1764030069924-poi.png',
             8
           );
         
@@ -319,12 +319,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '57d5af06-0450-455e-9af2-8bfbe8307f02',
+          '1a415e0a-ffd3-4bbd-98ae-d1c555238e61',
           'trilha-interativa',
-          'trails/cover/5-1764026954220-trail.png',
+          'trails/cover/5-1764030070481-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/5-1764026954220-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/5-1764030070481-trail.png',
           5
         );
       
@@ -341,12 +341,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '3492dbc6-3407-4f96-8335-b605d4c04af3',
+            'e46064b9-e521-4cca-83c6-f2b4f031bca4',
             'trilha-interativa',
-            'pois/9-1764026954735-poi.png',
+            'pois/9-1764030071047-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/9-1764026954735-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/9-1764030071047-poi.png',
             9
           );
         
@@ -363,12 +363,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            'b84a58a6-62dd-4762-88c6-0746c15bf993',
+            'cbd8d5fb-34c2-475c-865f-65e75d574d7c',
             'trilha-interativa',
-            'pois/10-1764026955264-poi.png',
+            'pois/10-1764030071739-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/10-1764026955264-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/10-1764030071739-poi.png',
             10
           );
         
@@ -384,12 +384,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '607786a5-1e16-4aa5-80b1-6be90abd0c41',
+          '249ce559-988d-4482-8712-15e8964df033',
           'trilha-interativa',
-          'trails/cover/6-1764026955785-trail.png',
+          'trails/cover/6-1764030072338-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/6-1764026955785-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/6-1764030072338-trail.png',
           6
         );
       
@@ -406,12 +406,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '0445e436-f94c-4d71-aad8-5d052db33e62',
+            '9c2cd37a-57b3-4198-b358-41f56506e649',
             'trilha-interativa',
-            'pois/11-1764026956312-poi.png',
+            'pois/11-1764030072954-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/11-1764026956312-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/11-1764030072954-poi.png',
             11
           );
         
@@ -428,12 +428,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            'ede0b872-42c9-4381-ab73-7e40d119f0e5',
+            'e898028e-5654-470a-8f40-ca3f7de72377',
             'trilha-interativa',
-            'pois/12-1764026956830-poi.png',
+            'pois/12-1764030074074-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/12-1764026956830-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/12-1764030074074-poi.png',
             12
           );
         
@@ -443,19 +443,19 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
         3, 
         'Entidade Teste 3', 
         'entidade3@teste.com', 
-        '$2b$10$lMa7UuN95ICX9kvMq3tDBO8/wy8mpfgltoGIevUN8UWjfhUm4hC/.', 
+        '$2b$10$iW1adNUEnJNsW7KbqdLKmu.vIRdVhLYXwubwzK4PGPlPK2CUdx8xm', 
         '12345-678', 'Rua das Flores', '100', 'São Paulo', 'SP', '11999999999'
       );
     
 
       INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, entity_id) 
       VALUES (
-        'd7d61802-eb23-4886-ab6d-9d68e9edcf38',
+        'ec446b2c-7541-4839-9a4d-491b8f9449f5',
         'trilha-interativa',
-        'entities/3-1764026957420-entity.png',
+        'entities/3-1764030074653-entity.png',
         'image/png',
         24833,
-        'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/entities/3-1764026957420-entity.png',
+        'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/entities/3-1764030074653-entity.png',
         3
       );
     
@@ -471,12 +471,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '2e2a0d83-491b-4240-b3a2-2fed812979dc',
+          '099478cf-083e-4e0f-81a7-2ce2920599d9',
           'trilha-interativa',
-          'trails/cover/7-1764026958072-trail.png',
+          'trails/cover/7-1764030075204-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/7-1764026958072-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/7-1764030075204-trail.png',
           7
         );
       
@@ -493,12 +493,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '1c2cce9a-bc95-4d4a-9c79-b833097d9902',
+            'b35b557b-b2f6-4e36-966b-4d224eaf4a4f',
             'trilha-interativa',
-            'pois/13-1764026958610-poi.png',
+            'pois/13-1764030075752-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/13-1764026958610-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/13-1764030075752-poi.png',
             13
           );
         
@@ -515,12 +515,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '3565e320-d1c7-4daa-8acc-b4d13b8e3c14',
+            'ee043089-26be-4b2c-8fc5-dbb21eb3ce3a',
             'trilha-interativa',
-            'pois/14-1764026959125-poi.png',
+            'pois/14-1764030076278-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/14-1764026959125-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/14-1764030076278-poi.png',
             14
           );
         
@@ -536,12 +536,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '9e3f6b61-d329-477d-8b05-b5557e32350d',
+          '87b8d56a-ca98-4e40-a46f-b12d04247372',
           'trilha-interativa',
-          'trails/cover/8-1764026959680-trail.png',
+          'trails/cover/8-1764030076820-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/8-1764026959680-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/8-1764030076820-trail.png',
           8
         );
       
@@ -558,12 +558,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '881b23f9-d0d8-4168-91ac-a8f12c5e65a5',
+            'fda7ab37-d73e-4949-964b-0186929e76f4',
             'trilha-interativa',
-            'pois/15-1764026960259-poi.png',
+            'pois/15-1764030077350-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/15-1764026960259-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/15-1764030077350-poi.png',
             15
           );
         
@@ -580,12 +580,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            'cbeac117-6310-46fb-9198-11653703bccf',
+            '52a0d10c-9560-4591-8d8a-73c8413b2145',
             'trilha-interativa',
-            'pois/16-1764026960890-poi.png',
+            'pois/16-1764030077869-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/16-1764026960890-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/16-1764030077869-poi.png',
             16
           );
         
@@ -601,12 +601,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
         INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, trail_id) 
         VALUES (
-          '5f7f4cb4-1948-4dfa-9583-ddadd84ed45c',
+          '22381876-7f6d-4fc4-88fe-4dcd3841f2db',
           'trilha-interativa',
-          'trails/cover/9-1764026961431-trail.png',
+          'trails/cover/9-1764030079861-trail.png',
           'image/png',
           5275,
-          'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/trails/cover/9-1764026961431-trail.png',
+          'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/trails/cover/9-1764030079861-trail.png',
           9
         );
       
@@ -623,12 +623,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '31ba7c0a-9756-4ee7-bf8e-c6d4a21f76e7',
+            'c5a69494-a63f-4a4c-8312-cd8a1f560d37',
             'trilha-interativa',
-            'pois/17-1764026962048-poi.png',
+            'pois/17-1764030080370-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/17-1764026962048-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/17-1764030080370-poi.png',
             17
           );
         
@@ -645,12 +645,12 @@ DELETE FROM sqlite_sequence WHERE name IN ('entities', 'trails', 'points_of_inte
 
           INSERT INTO attachments (uuid, bucket, object_key, mime_type, size, url, point_of_interest_id) 
           VALUES (
-            '17c4981e-d40c-43ee-9a6b-e8ccb63348b3',
+            '09e887dc-1551-4973-be6a-d99b1e0c75d6',
             'trilha-interativa',
-            'pois/18-1764026962547-poi.png',
+            'pois/18-1764030080879-poi.png',
             'image/png',
             6363,
-            'https://pub-68987b295c01328af6baa1761e79f5a9.r2.dev/pois/18-1764026962547-poi.png',
+            'https://pub-2653dd2ff24e48eebd1c76e727cb07b0.r2.dev/pois/18-1764030080879-poi.png',
             18
           );
         
