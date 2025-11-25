@@ -29,7 +29,7 @@ POST http://localhost:8787/auth/login
 Content-Type: application/json
 
 {
-	"email": "joao.silva@email.com",
+	"email": "joao.silva2@email.com",
 	"password": "senhaSegura123"
 }
 
@@ -147,7 +147,7 @@ Content-Type: application/json
 # }
 
 ### List Trails by entity ID
-GET http://localhost:8787/trails
+GET http://localhost:8787/trails/1
 
 
 # response: {
@@ -180,38 +180,77 @@ Content-Type: application/json
 ### Upload attachment (entidade)
 #### types: galery | cover 
 
-POST http://localhost:8787/attachments?type=cover
-Content-Type: multipart/form-data; boundary=boundary123
-
---boundary123
-Content-Disposition: form-data; name="file"; filename="sample.jpg"
-Content-Type: image/jpeg
-
-< ./tests/images/sample.jpg
---boundary123--
-
 ### Upload attachment (trilha) - capa
 #### Substitua "1" pelo ID da trilha criada
 
-POST http://localhost:8787/attachments?type=cover&trailId=10
-Content-Type: multipart/form-data; boundary=boundary123
-
---boundary123
-Content-Disposition: form-data; name="file"; filename="trail-cover.jpg"
-Content-Type: image/jpeg
-
-< ./tests/images/sample.jpg
---boundary123--
 
 ### Upload attachment (trilha) - galeria
 #### Substitua "1" pelo ID da trilha criada
 
-POST http://localhost:8787/attachments?type=galery&trailId=1
+
+### Criar Ponto de Interesse (requer autenticação e trilha existente)
+POST http://localhost:8787/points-of-interest
+Content-Type: application/json
+
+{
+	"name": "Mirante do Vale",
+	"shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
+	"description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais.",
+	"trailId": 1
+}
+
+# response esperada: {
+#   "message": "Ponto de interesse criado com sucesso",
+#   "pointOfInterest": {
+#     "id": 1,
+#     "name": "Mirante do Vale",
+#     "shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
+#     "description": "Este mirante natural oferece uma das melhores vistas da trilha...",
+#     "trailId": 1,
+#     "createdAt": "2025-11-17T10:30:00.000Z",
+#     "updatedAt": "2025-11-17T10:30:00.000Z"
+#   }
+# }
+
+### Upload de imagem para Ponto de Interesse
+POST http://localhost:8787/attachments?type=cover&trailId=1
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
-Content-Disposition: form-data; name="file"; filename="trail-gallery-1.jpg"
+Content-Disposition: form-data; name="file"; filename="foto.jpg"
 Content-Type: image/jpeg
 
 < ./tests/images/sample.jpg
 --boundary123--
+
+### Get Trail by ID (buscar trilha completa com capa e galeria)
+#### Substitua "1" pelo ID da trilha criada
+
+GET http://localhost:8787/trails/trail/1
+
+# response: {
+#   "message": "Trilha encontrada com sucesso",
+#   "trail": {
+#     "id": 1,
+#     "name": "Trilha da Pedra Grande",
+#     "description": "Esta trilha leva você através da mata atlântica até o topo da Pedra Grande, onde você terá uma vista de 360 graus da região. O caminho é bem marcado mas possui trechos íngremes. Ideal para quem busca um desafio moderado e quer apreciar a natureza.",
+#     "shortDescription": "Uma trilha desafiadora com vista panorâmica incrível da cidade.",
+#     "duration": 180,
+#     "distance": 5.5,
+#     "difficulty": "moderado",
+#     "safetyTips": "Leve bastante água (mínimo 2 litros por pessoa), protetor solar, boné e lanches energéticos. Use calçados apropriados para trilha. Evite fazer a trilha em dias chuvosos pois o caminho fica escorregadio. Não se esqueça de levar repelente de insetos.",
+#     "coverUrl": "https://example.com/cover/trail-1.jpg",
+#     "gallery": [
+#       {
+#         "id": 1,
+#         "url": "https://example.com/galery/trail-1-img1.jpg",
+#         "uuid": "abc123-def456-ghi789"
+#       },
+#       {
+#         "id": 2,
+#         "url": "https://example.com/galery/trail-1-img2.jpg",
+#         "uuid": "xyz789-uvw456-rst123"
+#       }
+#     ]
+#   }
+# }

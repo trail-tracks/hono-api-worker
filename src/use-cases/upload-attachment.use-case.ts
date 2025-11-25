@@ -15,6 +15,7 @@ export interface UploadAttachmentUseCaseInput {
   type: 'galery' | 'cover';
   entityId?: number;
   trailId?: number;
+  pointOfInterestId?: number;
 }
 
 // Define a interface de resposta do caso de uso
@@ -110,6 +111,20 @@ export class UploadAttachmentUseCase {
         );
       }
 
+      if (params.pointOfInterestId) {
+        const pointObjectKey = `${baseObjectKey}/point-of-interest`;
+        await this.savePointOfInterestPicture(
+          client,
+          bucket,
+          body,
+          contentType,
+          params.type,
+          params.pointOfInterestId,
+          pointObjectKey,
+          file.size,
+        );
+      }
+
       return {
         success: true,
       };
@@ -139,7 +154,7 @@ export class UploadAttachmentUseCase {
   ): Promise<void> {
     const uuid = crypto.randomUUID();
 
-    const objectKey = `${baseObjectKey}/${entityId}/${type}/${uuid}`;
+    const objectKey = type === "cover" ? `${baseObjectKey}/${entityId}/${type}/profile` : `${baseObjectKey}/${entityId}/${type}/${uuid}`;
 
     await client.send(new PutObjectCommand({
       Bucket: bucket,
@@ -186,7 +201,7 @@ export class UploadAttachmentUseCase {
   ): Promise<void> {
     const uuid = crypto.randomUUID();
 
-    const objectKey = `${baseObjectKey}/${trailId}/${type}/${uuid}`;
+    const objectKey = type === "cover" ? `${baseObjectKey}/${trailId}/${type}/profile` : `${baseObjectKey}/${trailId}/${type}/${uuid}`;
 
     await client.send(new PutObjectCommand({
       Bucket: bucket,
@@ -207,6 +222,53 @@ export class UploadAttachmentUseCase {
         size: fileSize,
         url: objectKey,
         trailId,
+        createdAt: now,
+        updatedAt: now,
+      })
+      .returning({
+        uuid: attachment.uuid,
+        bucket: attachment.bucket,
+        objectKey: attachment.objectKey,
+        url: attachment.url,
+        mimeType: attachment.mimeType,
+        size: attachment.size,
+      })
+      .get();
+  }
+
+  private static async savePointOfInterestPicture(
+    client: S3Client,
+    bucket: string,
+    body: Uint8Array<ArrayBuffer>,
+    contentType: string,
+    type: 'galery' | 'cover',
+    pointOfInterestId: number,
+    baseObjectKey: string,
+    fileSize: number,
+  ): Promise<void> {
+    const uuid = crypto.randomUUID();
+
+    const objectKey = type === "cover" ? `${baseObjectKey}/${pointOfInterestId}/${type}/profile` : `${baseObjectKey}/${pointOfInterestId}/${type}/${uuid}`;
+
+    await client.send(new PutObjectCommand({
+      Bucket: bucket,
+      Key: objectKey,
+      Body: body,
+      ContentType: contentType,
+    }));
+
+    const now = new Date();
+
+    await this.db
+      .insert(attachment)
+      .values({
+        uuid,
+        bucket,
+        objectKey,
+        mimeType: contentType,
+        size: fileSize,
+        url: objectKey,
+        pointOfInterestId,
         createdAt: now,
         updatedAt: now,
       })
