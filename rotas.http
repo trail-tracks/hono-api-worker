@@ -147,7 +147,7 @@ Content-Type: application/json
 # }
 
 ### List Trails by entity ID
-GET http://localhost:8787/trails/1
+GET http://localhost:8787/trails
 
 
 # response: {
