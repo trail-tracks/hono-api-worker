@@ -20,6 +20,7 @@ const getTrailByIdController = new GetTrailByIdController();
 
 trailsRoutes.get(
   '/',
+  authMiddleware,
   listTrailsController.list.bind(listTrailsController),
 );
 
@@ -46,6 +47,5 @@ trailsRoutes.get(
   '/trail/:id',
   getTrailByIdController.get.bind(getTrailByIdController),
 );
-
 
 export default trailsRoutes;

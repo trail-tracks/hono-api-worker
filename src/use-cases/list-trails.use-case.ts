@@ -3,7 +3,6 @@ import {
 } from 'drizzle-orm';
 import { getDb } from '../../drizzle/db';
 import { attachment, entity, trail } from '../../drizzle/schema';
-import { CreatePointOfInterestUseCase } from './create-point-of-interest.use-case';
 
 export interface ListTrailsUseCaseResponse {
   success: boolean;
@@ -30,7 +29,6 @@ export class ListTrailsUseCase {
   ): Promise<ListTrailsUseCaseResponse> {
     const db = getDb(d1Database);
     try {
-      // Verificar se a entidade existe e não foi deletada
       const existingEntity = await db
         .select()
         .from(entity)

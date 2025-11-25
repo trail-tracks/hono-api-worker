@@ -154,7 +154,7 @@ export class UploadAttachmentUseCase {
   ): Promise<void> {
     const uuid = crypto.randomUUID();
 
-    const objectKey = type === "cover" ? `${baseObjectKey}/${entityId}/${type}/profile` : `${baseObjectKey}/${entityId}/${type}/${uuid}`;
+    const objectKey = type === 'cover' ? `${baseObjectKey}/${entityId}/${type}/profile` : `${baseObjectKey}/${entityId}/${type}/${uuid}`;
 
     await client.send(new PutObjectCommand({
       Bucket: bucket,
@@ -201,7 +201,7 @@ export class UploadAttachmentUseCase {
   ): Promise<void> {
     const uuid = crypto.randomUUID();
 
-    const objectKey = type === "cover" ? `${baseObjectKey}/${trailId}/${type}/profile` : `${baseObjectKey}/${trailId}/${type}/${uuid}`;
+    const objectKey = type === 'cover' ? `${baseObjectKey}/${trailId}/${type}/profile` : `${baseObjectKey}/${trailId}/${type}/${uuid}`;
 
     await client.send(new PutObjectCommand({
       Bucket: bucket,
@@ -248,7 +248,7 @@ export class UploadAttachmentUseCase {
   ): Promise<void> {
     const uuid = crypto.randomUUID();
 
-    const objectKey = type === "cover" ? `${baseObjectKey}/${pointOfInterestId}/${type}/profile` : `${baseObjectKey}/${pointOfInterestId}/${type}/${uuid}`;
+    const objectKey = type === 'cover' ? `${baseObjectKey}/${pointOfInterestId}/${type}/profile` : `${baseObjectKey}/${pointOfInterestId}/${type}/${uuid}`;
 
     await client.send(new PutObjectCommand({
       Bucket: bucket,
