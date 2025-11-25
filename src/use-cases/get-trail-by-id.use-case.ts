@@ -1,6 +1,6 @@
 import { and, eq, like } from 'drizzle-orm';
 import { getDb } from '../../drizzle/db';
-import { attachment, trail } from '../../drizzle/schema';
+import { attachment, pointOfInterest, trail } from '../../drizzle/schema';
 
 export interface GetTrailByIdUseCaseResponse {
   success: boolean;
@@ -19,11 +19,27 @@ export interface GetTrailByIdUseCaseResponse {
       url: string | null;
       uuid: string;
     }[];
+    pointsOfInterest: {
+      id: number;
+      name: string;
+      shortDescription: string;
+      description: string | null;
+      trailId: number;
+      createdAt: Date | null;
+      updatedAt: Date | null;
+      coverUrl?: string;
+      gallery: {
+        id: number;
+        url: string | null;
+        uuid: string;
+      }[];
+    }[];
   };
   error?: {
     message: string;
     statusCode: number;
   };
+
 }
 
 export class GetTrailByIdUseCase {
@@ -33,7 +49,6 @@ export class GetTrailByIdUseCase {
   ): Promise<GetTrailByIdUseCaseResponse> {
     const db = getDb(d1Database);
     try {
-      // Buscar a trilha
       const trailData = await db
         .select({
           id: trail.id,
@@ -59,7 +74,6 @@ export class GetTrailByIdUseCase {
         };
       }
 
-      // Buscar a foto de capa (cover)
       const coverImage = await db
         .select({
           url: attachment.url,
@@ -73,7 +87,6 @@ export class GetTrailByIdUseCase {
         )
         .get();
 
-      // Buscar as imagens da galeria
       const galleryImages = await db
         .select({
           id: attachment.id,
@@ -88,6 +101,59 @@ export class GetTrailByIdUseCase {
           ),
         );
 
+      const pointsOfInterestData = await db
+        .select({
+          id: pointOfInterest.id,
+          name: pointOfInterest.name,
+          shortDescription: pointOfInterest.shortDescription,
+          description: pointOfInterest.description ?? null,
+          trailId: pointOfInterest.trailId,
+          createdAt: pointOfInterest.createdAt,
+          updatedAt: pointOfInterest.updatedAt,
+        })
+        .from(pointOfInterest)
+        .where(eq(pointOfInterest.trailId, trailId));
+
+      // Buscar fotos de cada ponto de interesse
+      const pointsOfInterestWithPhotos = await Promise.all(
+        pointsOfInterestData.map(async (poi) => {
+          // Buscar foto de capa do ponto de interesse
+          const poiCover = await db
+            .select({
+              url: attachment.url,
+            })
+            .from(attachment)
+            .where(
+              and(
+                eq(attachment.pointOfInterestId, poi.id),
+                like(attachment.url, '%/cover/%'),
+              ),
+            )
+            .get();
+
+          // Buscar galeria do ponto de interesse
+          const poiGallery = await db
+            .select({
+              id: attachment.id,
+              url: attachment.url,
+              uuid: attachment.uuid,
+            })
+            .from(attachment)
+            .where(
+              and(
+                eq(attachment.pointOfInterestId, poi.id),
+                like(attachment.url, '%/galery/%'),
+              ),
+            );
+
+          return {
+            ...poi,
+            coverUrl: poiCover?.url ?? undefined,
+            gallery: poiGallery,
+          };
+        }),
+      );
+
       return {
         success: true,
         trail: {
@@ -101,6 +167,7 @@ export class GetTrailByIdUseCase {
           safetyTips: trailData.safetyTips ?? undefined,
           coverUrl: coverImage?.url ?? undefined,
           gallery: galleryImages,
+          pointsOfInterest: pointsOfInterestWithPhotos,
         },
       };
     } catch (error) {

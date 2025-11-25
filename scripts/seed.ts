@@ -20,6 +20,7 @@ const CONFIG = {
   ACCOUNT_ID: process.env.R2_ACCOUNT_ID,
   ACCESS_KEY_ID: process.env.R2_ACCESS_KEY_ID,
   SECRET_ACCESS_KEY: process.env.R2_SECRET_ACCESS_KEY,
+  R2_PUBLIC_URL: process.env.R2_PUBLIC_URL,
   COUNTS: {
     ENTITIES: 3,
     TRAILS_PER_ENTITY: 3,
@@ -51,7 +52,7 @@ async function uploadFile(filename: string, folder: string, id: number) {
     return {
       key: `placeholder/${filename}`,
       size: 0,
-      url: `https://pub-${CONFIG.ACCOUNT_ID}.r2.dev/placeholder.png`,
+      url: `${CONFIG.R2_PUBLIC_URL}/placeholder.png`,
     };
   }
 
@@ -68,7 +69,7 @@ async function uploadFile(filename: string, folder: string, id: number) {
   );
 
   // Ajuste a URL pública conforme sua configuração de domínio do R2
-  const publicUrl = `https://pub-${CONFIG.ACCOUNT_ID}.r2.dev/${key}`;
+  const publicUrl = `${CONFIG.R2_PUBLIC_URL}/${key}`;
 
   return {
     key,
