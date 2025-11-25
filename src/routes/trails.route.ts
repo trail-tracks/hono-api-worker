@@ -47,5 +47,4 @@ trailsRoutes.get(
   getTrailByIdController.get.bind(getTrailByIdController),
 );
 
-
 export default trailsRoutes;
