@@ -15,6 +15,7 @@ export interface GetDashHomeUseCaseResponse {
       name: string;
       distance: string;
       difficulty: string;
+      duration: string;
       coverUrl: string | null;
     }[];
   };
@@ -48,6 +49,7 @@ export class GetDashHomeUseCase {
           id: trail.id,
           name: trail.name,
           distance: trail.distance,
+          duration: trail.duration,
           difficulty: trail.difficulty,
           coverUrl: attachment.url,
         })
@@ -72,6 +74,7 @@ export class GetDashHomeUseCase {
             id: t.id,
             name: t.name,
             distance: t.distance,
+            duration: t.duration,
             difficulty: t.difficulty,
             coverUrl: t.coverUrl,
           })),
