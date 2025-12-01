@@ -147,7 +147,7 @@ Content-Type: application/json
 # }
 
 ### List Trails by entity ID
-GET http://localhost:8787/trails
+GET http://localhost:8787/trails/trail/11
 
 
 # response: {
@@ -196,7 +196,7 @@ Content-Type: application/json
 	"name": "Mirante do Vale",
 	"shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
 	"description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais.",
-	"trailId": 1
+	"trailId": 11
 }
 
 # response esperada: {
@@ -212,8 +212,35 @@ Content-Type: application/json
 #   }
 # }
 
+### pegar Ponto de Interesse por ID
+GET http://localhost:8787/points-of-interest/2
+
+# {
+#   "message": "Ponto de interesse encontrado com sucesso",
+#   "pointOfInterest": {
+#     "id": 1,
+#     "name": "Mirante do Vale",
+#     "trailId": 11,
+#     "createdAt": "2025-11-25T01:08:49.000Z",
+#     "updatedAt": "2025-11-25T01:08:49.000Z",
+#     "description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais.",
+#     "shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
+#     "gallery": []
+#   }
+# }
+
+### Editar Ponto de Interesse
+PATCH http://localhost:8787/points-of-interest/2
+Content-Type: application/json
+
+{
+	"shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor",
+	"description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais"
+}
+
+
 ### Upload de imagem para Ponto de Interesse
-POST http://localhost:8787/attachments?type=galery&pointOfInterestId=1
+POST http://localhost:8787/attachments?type=galery&points-of-interest=1
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
@@ -229,74 +256,28 @@ Content-Type: image/jpeg
 GET http://localhost:8787/trails/trail/1
 
 # response: {
-#   {
-#  "message": "Trilha encontrada com sucesso",
-#  "trail": {
-#    "id": 3,
-#    "name": "Teste 3",
-#    "description": "Esta trilha leva você através da mata atlântica até o topo da Pedra Grande, onde você terá uma vista de 360 graus da região. O caminho é bem marcado mas possui trechos íngremes. Ideal para quem busca um desafio moderado e quer apreciar a natureza.",
-#    "shortDescription": "Uma trilha desafiadora com vista panorâmica incrível da cidade.",
-#    "duration": "180",
-#    "distance": "5.5",
-#    "difficulty": "moderado",
-#    "safetyTips": "Leve bastante água (mínimo 2 litros por pessoa), protetor solar, boné e lanches energéticos. Use calçados apropriados para trilha. Evite fazer a trilha em dias chuvosos pois o caminho fica escorregadio. Não se esqueça de levar repelente de insetos.",
-#    "coverUrl": "uploads/trail/3/cover/188bb68c-1421-4d7c-bdec-de573dd1229c",
-#    "gallery": [
-#      {
-#        "id": 18,
-#        "url": "uploads/trail/3/galery/3e0b312c-db67-43d9-9df0-54a406dbfd2d",
-#        "uuid": "3e0b312c-db67-43d9-9df0-54a406dbfd2d"
-#      },
-#      {
-#        "id": 20,
-#        "url": "uploads/trail/3/galery/575347c3-d4bd-4689-95af-62faa6c8353f",
-#        "uuid": "575347c3-d4bd-4689-95af-62faa6c8353f"
-#      },
-#      {
-#        "id": 22,
-#        "url": "uploads/trail/3/galery/098b9f42-7216-4e21-9df3-05b98d8781c6",
-#        "uuid": "098b9f42-7216-4e21-9df3-05b98d8781c6"
-#      }
-#    ],
-#    "pointsOfInterest": [
-#      {
-#        "id": 1,
-#        "name": "Mirante do Vale",
-#        "shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
-#        "description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais.",
-#        "trailId": 3,
-#        "createdAt": "2025-11-24T23:22:52.000Z",
-#        "updatedAt": "2025-11-24T23:22:52.000Z",
-#        "coverUrl": "uploads/point-of-interest/1/cover/fe029b94-875f-4dbc-9aba-266acb874b39",
-#        "gallery": []
-#      },
-#      {
-#        "id": 2,
-#        "name": "Mirante do Vale",
-#        "shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
-#        "description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais.",
-#        "trailId": 3,
-#        "createdAt": "2025-11-24T23:22:57.000Z",
-#        "updatedAt": "2025-11-24T23:22:57.000Z",
-#        "coverUrl": "uploads/point-of-interest/2/cover/89d6a093-bb92-4b98-b0be-f6b6464cc635",
-#        "gallery": []
-#      },
-#      {
-#        "id": 3,
-#        "name": "aaaaaaaa",
-#        "shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
-#        "description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais.",
-#        "trailId": 3,
-#        "createdAt": "2025-11-24T23:23:10.000Z",
-#        "updatedAt": "2025-11-24T23:23:10.000Z",
-#        "gallery": []
-#      }
-#    ]
-#  }
-#}
-
-### Get Point of Interest by ID (buscar ponto de interesse completo com capa e galeria)
-#### Substitua "1" pelo ID do ponto de interesse criado
-
-GET http://localhost:8787/points-of-interest/1
-
+#   "message": "Trilha encontrada com sucesso",
+#   "trail": {
+#     "id": 1,
+#     "name": "Trilha da Pedra Grande",
+#     "description": "Esta trilha leva você através da mata atlântica até o topo da Pedra Grande, onde você terá uma vista de 360 graus da região. O caminho é bem marcado mas possui trechos íngremes. Ideal para quem busca um desafio moderado e quer apreciar a natureza.",
+#     "shortDescription": "Uma trilha desafiadora com vista panorâmica incrível da cidade.",
+#     "duration": 180,
+#     "distance": 5.5,
+#     "difficulty": "moderado",
+#     "safetyTips": "Leve bastante água (mínimo 2 litros por pessoa), protetor solar, boné e lanches energéticos. Use calçados apropriados para trilha. Evite fazer a trilha em dias chuvosos pois o caminho fica escorregadio. Não se esqueça de levar repelente de insetos.",
+#     "coverUrl": "https://example.com/cover/trail-1.jpg",
+#     "gallery": [
+#       {
+#         "id": 1,
+#         "url": "https://example.com/galery/trail-1-img1.jpg",
+#         "uuid": "abc123-def456-ghi789"
+#       },
+#       {
+#         "id": 2,
+#         "url": "https://example.com/galery/trail-1-img2.jpg",
+#         "uuid": "xyz789-uvw456-rst123"
+#       }
+#     ]
+#   }
+# }
