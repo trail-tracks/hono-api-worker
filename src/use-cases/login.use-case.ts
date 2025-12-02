@@ -12,6 +12,7 @@ export interface LoginUseCaseResponse {
   user?: {
     name: string;
     nameComplement: string | null;
+    email: string;
     coverUrl: string | null;
   };
   token?: string;
@@ -86,6 +87,7 @@ export class LoginUseCase {
         user: {
           name: existingUser.name,
           nameComplement: existingUser.nameComplement,
+          email: existingUser.email,
           coverUrl,
         },
         token,
