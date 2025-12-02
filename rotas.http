@@ -166,6 +166,9 @@ Content-Type: application/json
 #   }
 # }
 
+### List Trails of the entity
+GET http://localhost:8787/trails
+
 ### List Trails by entity ID
 GET http://localhost:8787/trails/trail/11
 
@@ -274,9 +277,13 @@ Content-Type: image/jpeg
 ### Delete imagem
 DELETE http://localhost:8787/attachments/46
 
+### Gerar QR Codes de uma trilha (trilha + pontos de interesse)
+#### Retorna um PDF com os QR codes (6 por página)
+#### Substitua "1" pelo ID da trilha
+GET http://localhost:8787/qrcode/11
+
 ### Get Trail by ID (buscar trilha completa com capa e galeria)
 #### Substitua "1" pelo ID da trilha criada
-
 GET http://localhost:8787/trails/trail/1
 
 # response: {
