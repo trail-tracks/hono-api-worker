@@ -19,7 +19,9 @@
     "@xmldom/xmldom": "^0.9.7",
     "bcryptjs": "^3.0.2",
     "drizzle-orm": "^0.44.5",
-    "hono": "^4.9.2"
+    "hono": "^4.9.2",
+    "pdf-lib": "^1.17.1",
+    "qr-image-color": "^3.2.1"
   },
   "devDependencies": {
     "@aws-sdk/client-s3": "^3.939.0",
