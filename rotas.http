@@ -66,6 +66,23 @@ Content-Type: application/json
 	"id": 1
 }
 
+### Change Email (requer autenticação)
+PATCH http://localhost:8787/auth/change-email
+Content-Type: application/json
+
+{
+	"newEmail": "novo.email@exemplo.com",
+	"password": "senhaSegura123"
+}
+
+# response: {
+#   "message": "Email alterado com sucesso",
+#   "entity": {
+#     "id": 1,
+#     "email": "novo.email@exemplo.com"
+#   }
+# }
+
 ### List Entities
 GET http://localhost:8787/entities
 
