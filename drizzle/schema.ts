@@ -14,6 +14,12 @@ export const entity = sqliteTable('entities', {
   addressComplement: text('address_complement'),
   phone: text('phone').notNull(),
   deletedAt: text('deleted_at'),
+  createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(
+    () => new Date(),
+  ),
+  updatedAt: integer('updated_at', { mode: 'timestamp' })
+    .$defaultFn(() => new Date())
+    .$onUpdateFn(() => new Date()),
 });
 
 export const trail = sqliteTable('trails', {
