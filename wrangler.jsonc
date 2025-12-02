@@ -4,6 +4,9 @@
   "account_id": "68987b295c01328af6baa1761e79f5a9",
   "main": "src/index.ts",
   "compatibility_date": "2025-08-19",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "build": {
     "command": "npm run build",
   },

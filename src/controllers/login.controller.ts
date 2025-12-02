@@ -22,11 +22,12 @@ export class LoginController {
         );
       }
 
-      // Trocar o sameSite para none quando estiver em produção
+      // Cookie configurado para permitir acesso de todos os sites (cross-origin)
       setCookie(c, 'access_token', result.token!, {
         httpOnly: true,
         path: '/',
-        sameSite: 'lax',
+        sameSite: 'none',
+        secure: true,
       });
 
       return c.json(

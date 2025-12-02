@@ -6,6 +6,7 @@ import { AppBindings, AppVariables } from './types/env';
 import trailsRoutes from './routes/trails.route';
 import entitiesRoutes from './routes/entities.routes';
 import pointsOfInterestRoutes from './routes/points-of-interest.routes';
+import qrCodeRoutes from './routes/qrcode.routes';
 
 const app = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 
@@ -32,5 +33,6 @@ app.route('/attachments', attachmentsRoutes);
 app.route('/trails', trailsRoutes);
 app.route('/entities', entitiesRoutes);
 app.route('/points-of-interest', pointsOfInterestRoutes);
+app.route('/qrcode', qrCodeRoutes);
 
 export default app;
