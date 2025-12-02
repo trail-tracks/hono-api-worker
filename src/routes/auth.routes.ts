@@ -12,12 +12,20 @@ import { loginSchema } from '../dtos/login.dto';
 import { CreateEntityDto } from '../dtos/signup.dto';
 import { authMiddleware } from '../middlewares/auth-middleware';
 import { AppBindings, AppVariables } from '../types/env';
+import { GetEntityController } from '../controllers/get-entity.controller';
 
 const authRoutes = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 const editEntityController = new EditEntityController();
 const deleteEntityController = new DeleteEntityController();
 const entitiesController = new EntitiesController();
 const changeEmailController = new ChangeEmailController();
+const getEntityController = new GetEntityController();
+
+authRoutes.get(
+  '/',
+  authMiddleware,
+  getEntityController.get.bind(getEntityController),
+);
 
 authRoutes.put(
   '/edit',

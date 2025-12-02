@@ -42,6 +42,9 @@ Content-Type: application/json
 #   }
 # }
 
+### Get Myself
+GET http://localhost:8787/auth
+
 ### Edit
 PUT http://localhost:8787/auth/edit
 Content-Type: application/json
@@ -257,7 +260,7 @@ Content-Type: application/json
 
 
 ### Upload de imagem para Ponto de Interesse
-POST http://localhost:8787/attachments?type=galery&points-of-interest=1
+POST http://localhost:8787/attachments?type=galery
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
@@ -266,6 +269,10 @@ Content-Type: image/jpeg
 
 < ./tests/images/sample.jpg
 --boundary123--
+
+
+### Delete imagem
+DELETE http://localhost:8787/attachments/46
 
 ### Get Trail by ID (buscar trilha completa com capa e galeria)
 #### Substitua "1" pelo ID da trilha criada
