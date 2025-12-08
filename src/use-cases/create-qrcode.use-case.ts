@@ -133,6 +133,7 @@ export class CreateQRCodeUseCase {
         const qrData = JSON.stringify({
           type: item.type,
           id: item.id,
+          entityId: item.entityId,
         });
 
         const qrPng = qr.image(qrData, { 
