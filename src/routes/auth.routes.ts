@@ -1,11 +1,13 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { ChangeEmailController } from '../controllers/change-email.controller';
+import { ChangePasswordController } from '../controllers/change-password.controller';
 import { DeleteEntityController } from '../controllers/delete-entity.controller';
 import { EditEntityController } from '../controllers/edit-entity.controller';
 import { LoginController } from '../controllers/login.controller';
 import { EntitiesController } from '../controllers/signup-entity.controller';
 import { changeEmailSchema } from '../dtos/change-email.dto';
+import { changePasswordSchema } from '../dtos/change-password.dto';
 import { deleteSchema } from '../dtos/delete.dto';
 import { editSchema } from '../dtos/edit.dto';
 import { loginSchema } from '../dtos/login.dto';
@@ -19,6 +21,7 @@ const editEntityController = new EditEntityController();
 const deleteEntityController = new DeleteEntityController();
 const entitiesController = new EntitiesController();
 const changeEmailController = new ChangeEmailController();
+const changePasswordController = new ChangePasswordController();
 const getEntityController = new GetEntityController();
 
 authRoutes.get(
@@ -46,6 +49,13 @@ authRoutes.patch(
   authMiddleware,
   zValidator('json', changeEmailSchema),
   changeEmailController.handle.bind(changeEmailController),
+);
+
+authRoutes.patch(
+  '/change-password',
+  authMiddleware,
+  zValidator('json', changePasswordSchema),
+  changePasswordController.handle.bind(changePasswordController),
 );
 
 const loginController = new LoginController();

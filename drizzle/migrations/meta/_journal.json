@@ -22,6 +22,13 @@
       "when": 1763415508801,
       "tag": "0002_sour_darkhawk",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1765234910921,
+      "tag": "0003_chubby_black_queen",
+      "breakpoints": true
     }
   ]
 }
