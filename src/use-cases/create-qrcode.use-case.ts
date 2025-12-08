@@ -20,6 +20,7 @@ export interface CreateQRCodeUseCaseResponse {
 }
 
 interface QRCodeItem {
+  entityId: number
   type: 'trail' | 'poi';
   id: number;
   name: string;
@@ -79,11 +80,13 @@ export class CreateQRCodeUseCase {
       const items: QRCodeItem[] = [
         {
           type: 'trail',
+          entityId: trailData.entityId!,
           id: trailData.id,
           name: trailData.name,
         },
         ...pointsOfInterest.map((poi) => ({
           type: 'poi' as const,
+          entityId: trailData.entityId!,
           id: poi.id,
           name: poi.name,
         })),
