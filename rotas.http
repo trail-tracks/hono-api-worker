@@ -1,3 +1,6 @@
+###
+GET https://api.trilhainterativa.com.br/
+
 ### Signup
 POST http://localhost:8787/auth/signup
 Content-Type: application/json
@@ -78,6 +81,27 @@ Content-Type: application/json
 	"password": "senhaSegura123"
 }
 
+
+### Change Password (requer autenticação)
+PATCH http://localhost:8787/auth/change-password
+Content-Type: application/json
+
+{
+	"newPassword": "senhaSegura123",
+	"password": "novaSenhaSegura123"
+}
+
+
+### Login
+POST http://localhost:8787/auth/login
+Content-Type: application/json
+
+{
+	"email": "joao.silva2@email.com",
+	"password": "senhaSegura123"
+}
+
+
 # response: {
 #   "message": "Email alterado com sucesso",
 #   "entity": {
@@ -140,7 +164,7 @@ POST http://localhost:8787/trails
 Content-Type: application/json
 
 {
-	"name": "Teste 3",
+	"name": "Teste auth",
 	"shortDescription": "Uma trilha desafiadora com vista panorâmica incrível da cidade.",
 	"description": "Esta trilha leva você através da mata atlântica até o topo da Pedra Grande, onde você terá uma vista de 360 graus da região. O caminho é bem marcado mas possui trechos íngremes. Ideal para quem busca um desafio moderado e quer apreciar a natureza.",
 	"duration": 180,
@@ -284,8 +308,7 @@ GET http://localhost:8787/qrcode/11
 
 ### Get Trail by ID (buscar trilha completa com capa e galeria)
 #### Substitua "1" pelo ID da trilha criada
-GET http://localhost:8787/trails/trail/1
-
+GET http://localhost:8787/trails/trail/11
 # response: {
 #   "message": "Trilha encontrada com sucesso",
 #   "trail": {
