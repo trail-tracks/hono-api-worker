@@ -1,8 +1,9 @@
 import '../polyfills/dom-parser';
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
 import { attachment } from '../../drizzle/schema';
 import { getDb } from '../../drizzle/db';
+import { and, eq } from 'drizzle-orm';
 
 // Define as interfaces de entrada e saída do caso de uso
 export interface UploadAttachmentUseCaseInput {
@@ -12,7 +13,7 @@ export interface UploadAttachmentUseCaseInput {
   accountId: string;
   accessKeyId: string;
   secretAccessKey: string;
-  type: 'galery' | 'cover';
+  type: 'gallery' | 'cover' | 'poster';
   entityId?: number;
   trailId?: number;
   pointOfInterestId?: number;
@@ -98,6 +99,17 @@ export class UploadAttachmentUseCase {
       }
 
       if (params.trailId) {
+        // Poster só é permitido para entidades
+        if (params.type === 'poster') {
+          return {
+            success: false,
+            error: {
+              message: 'O tipo "poster" só é permitido para entidades',
+              statusCode: 400,
+            },
+          };
+        }
+
         const trailObjectKey = `${baseObjectKey}/trail`;
         await this.saveTrailPicture(
           client,
@@ -112,6 +124,17 @@ export class UploadAttachmentUseCase {
       }
 
       if (params.pointOfInterestId) {
+        // Poster só é permitido para entidades
+        if (params.type === 'poster') {
+          return {
+            success: false,
+            error: {
+              message: 'O tipo "poster" só é permitido para entidades',
+              statusCode: 400,
+            },
+          };
+        }
+
         const pointObjectKey = `${baseObjectKey}/point-of-interest`;
         await this.savePointOfInterestPicture(
           client,
@@ -147,14 +170,53 @@ export class UploadAttachmentUseCase {
     bucket: string,
     body: Uint8Array<ArrayBuffer>,
     contentType: string,
-    type: 'galery' | 'cover',
+    type: 'gallery' | 'cover' | 'poster',
     entityId: number,
     baseObjectKey: string,
     fileSize: number,
   ): Promise<void> {
+    // Se for poster ou cover, deletar o anterior antes de criar o novo (são únicos)
+    if (type === 'poster' || type === 'cover') {
+      const existing = await this.db
+        .select({
+          id: attachment.id,
+          objectKey: attachment.objectKey,
+        })
+        .from(attachment)
+        .where(
+          and(
+            eq(attachment.entityId, entityId),
+            eq(attachment.type, type)
+          )
+        )
+        .get();
+
+      if (existing) {
+        // Deletar do R2
+        try {
+          await client.send(new DeleteObjectCommand({
+            Bucket: bucket,
+            Key: existing.objectKey,
+          }));
+        } catch (error) {
+          console.error(`Erro ao deletar ${type} anterior do R2:`, error);
+        }
+
+        // Deletar do banco
+        await this.db
+          .delete(attachment)
+          .where(eq(attachment.id, existing.id))
+          .run();
+      }
+    }
+
     const uuid = crypto.randomUUID();
 
-    const objectKey = type === 'cover' ? `${baseObjectKey}/${entityId}/${type}/profile` : `${baseObjectKey}/${entityId}/${type}/${uuid}`;
+    const objectKey = type === 'cover' 
+      ? `${baseObjectKey}/${entityId}/${type}/profile` 
+      : type === 'poster'
+      ? `${baseObjectKey}/${entityId}/${type}/poster`
+      : `${baseObjectKey}/${entityId}/${type}/${uuid}`;
 
     await client.send(new PutObjectCommand({
       Bucket: bucket,
@@ -174,6 +236,7 @@ export class UploadAttachmentUseCase {
         mimeType: contentType,
         size: fileSize,
         url: objectKey,
+        type,
         entityId,
         createdAt: now,
         updatedAt: now,
@@ -194,7 +257,7 @@ export class UploadAttachmentUseCase {
     bucket: string,
     body: Uint8Array<ArrayBuffer>,
     contentType: string,
-    type: 'galery' | 'cover',
+    type: 'gallery' | 'cover',
     trailId: number,
     baseObjectKey: string,
     fileSize: number,
@@ -221,6 +284,7 @@ export class UploadAttachmentUseCase {
         mimeType: contentType,
         size: fileSize,
         url: objectKey,
+        type,
         trailId,
         createdAt: now,
         updatedAt: now,
@@ -241,7 +305,7 @@ export class UploadAttachmentUseCase {
     bucket: string,
     body: Uint8Array<ArrayBuffer>,
     contentType: string,
-    type: 'galery' | 'cover',
+    type: 'gallery' | 'cover',
     pointOfInterestId: number,
     baseObjectKey: string,
     fileSize: number,
@@ -268,6 +332,7 @@ export class UploadAttachmentUseCase {
         mimeType: contentType,
         size: fileSize,
         url: objectKey,
+        type,
         pointOfInterestId,
         createdAt: now,
         updatedAt: now,

@@ -287,7 +287,7 @@ Content-Type: application/json
 
 
 ### Upload de imagem para Ponto de Interesse
-POST http://localhost:8787/attachments?type=galery
+POST http://localhost:8787/attachments?type=cover&pointOfInterestId=4
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
