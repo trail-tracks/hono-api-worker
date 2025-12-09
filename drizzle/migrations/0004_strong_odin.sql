@@ -1,0 +1,1 @@
+ALTER TABLE `attachments` ADD `type` text DEFAULT 'gallery' NOT NULL;

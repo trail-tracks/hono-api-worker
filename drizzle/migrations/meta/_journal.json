@@ -29,6 +29,13 @@
       "when": 1765234910921,
       "tag": "0003_chubby_black_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1765243129667,
+      "tag": "0004_strong_odin",
+      "breakpoints": true
     }
   ]
 }
