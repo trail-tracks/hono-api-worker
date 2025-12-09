@@ -68,6 +68,7 @@ export const attachment = sqliteTable('attachments', {
   mimeType: text('mime_type'),
   size: integer('size'),
   url: text('url'),
+  type: text('type', { enum: ['gallery', 'cover', 'poster'] }).notNull().default('gallery'),
   entityId: integer('entity_id').references(() => entity.id, {
     onDelete: 'set null',
     onUpdate: 'cascade',

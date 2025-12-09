@@ -18,11 +18,7 @@ export interface GetEntityByIdUseCaseResponse {
     createdAt: Date | null;
     updatedAt: Date | null;
     coverUrl?: string;
-    gallery: {
-      id: number;
-      url: string | null;
-      uuid: string;
-    }[];
+    poster?: string;
   };
   error?: {
     message: string;
@@ -80,24 +76,23 @@ export class GetEntityByIdUseCase {
         )
         .get();
 
-      const galleryImages = await db
+      const posterImage = await db
         .select({
-          id: attachment.id,
           url: attachment.url,
-          uuid: attachment.uuid,
         })
         .from(attachment)
         .where(
           and(
             eq(attachment.entityId, entityId),
-            like(attachment.url, '%/galery/%'),
+            like(attachment.url, '%/poster/%'),
           ),
-        );
+        )
+        .get();
 
       const entityWithPhotos = {
         ...entityData,
         coverUrl: coverImage?.url ?? undefined,
-        gallery: galleryImages,
+        poster: posterImage?.url ?? undefined,
       };
 
       return {
@@ -116,7 +111,7 @@ export class GetEntityByIdUseCase {
           createdAt: entityWithPhotos.createdAt,
           updatedAt: entityWithPhotos.updatedAt,
           coverUrl: entityWithPhotos.coverUrl,
-          gallery: entityWithPhotos.gallery,
+          poster: entityWithPhotos.poster,
         },
       };
     } catch (error) {
