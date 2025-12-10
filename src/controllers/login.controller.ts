@@ -26,7 +26,8 @@ export class LoginController {
       setCookie(c, 'access_token', result.token!, {
         httpOnly: true,
         path: '/',
-        sameSite: 'Lax'
+        sameSite: 'none',
+        secure: true
       });
 
       return c.json(
