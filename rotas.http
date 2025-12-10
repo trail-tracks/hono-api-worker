@@ -1,5 +1,108 @@
-###
-GET https://api.trilhainterativa.com.br/
+### Signup
+POST http://localhost:8787/auth/signup
+Content-Type: application/json
+
+{
+	"name": "Reserva Natural Pedra Alta",
+	"nameComplement": "Fundação Ambiental",
+	"email": "reservas@pedraalta.org",
+	"password": "123456",
+	"zipCode": "11680000",
+	"address": "Rua da Pedra",
+	"number": "45",
+	"city": "Ubatuba",
+	"state": "SP",
+	"addressComplement": "Centro de Visitantes",
+	"phone": "12996660000"
+}
+
+### Change Password (requer autenticação)
+PATCH http://localhost:8787/auth/change-password
+Content-Type: application/json
+
+{
+	"newPassword": "12345678Ab@",
+	"password": "123456"
+}
+
+### Login1
+POST http://localhost:8787/auth/login
+Content-Type: application/json
+
+{
+	"email": "contato@serraviva.com",
+	"password": "12345678Ab@"
+}
+
+### Login2
+POST http://localhost:8787/auth/login
+Content-Type: application/json
+
+{
+	"email": "info@trilhasdomar.org",
+	"password": "12345678"
+}
+
+### Login3
+POST http://localhost:8787/auth/login
+Content-Type: application/json
+
+{
+	"email": "reservas@pedraalta.org",
+	"password": "12345678"
+}
+
+### Upload de imagem
+POST http://localhost:8787/attachments?type=poster
+Content-Type: multipart/form-data; boundary=boundary123
+
+--boundary123
+Content-Disposition: form-data; name="file"; filename="foto.jpg"
+Content-Type: image/jpeg
+
+< ./tests/images/entity/poster1.jpg
+--boundary123--
+
+
+
+
+
+
+
+### Create Trail (requer autenticação)
+POST http://localhost:8787/trails
+Content-Type: application/json
+
+{
+	 "name": "Trilha da Mata Profunda",
+    "shortDescription": "Trilha desafiadora em ambiente de mata fechada, com solo úmido, raízes expostas e alta presença de fauna típica da Mata Atlântica.",
+    "duration": 210,
+    "distance": 6,
+    "difficulty": "dificil",
+    "description": "O caminho é estreito e sombreado praticamente o tempo todo, com trechos onde a vegetação forma túneis naturais. A umidade elevada favorece o crescimento de musgos e bromélias, além de atrair uma grande variedade de insetos e pequenos animais. Em alguns pontos, o som de quedas d’água ao longe acompanha o visitante durante o percurso.",
+    "safetyTips": "Permaneça sempre na trilha demarcada para evitar desorientação, utilize repelente e caminhe com atenção para evitar escorregões em áreas de solo úmido."
+}
+
+### Criar Ponto de Interesse (requer autenticação e trilha existente)
+POST http://localhost:8787/points-of-interest
+Content-Type: application/json
+
+{
+	"name": "Clareira Final",
+    "shortDescription": "Grande área aberta que marca o fim da trilha.",
+    "description": "Uma clareira iluminada que funciona como ponto final de descanso. Oferece espaço para grupos, além de boa ventilação e vista parcial da mata.",
+    "trailId": 24
+}
+
+
+
+
+
+
+
+
+
+
 
 ### Signup
 POST http://localhost:8787/auth/signup
@@ -194,7 +297,7 @@ Content-Type: application/json
 GET http://localhost:8787/trails
 
 ### List Trails by entity ID
-GET http://localhost:8787/trails/trail/11
+GET http://localhost:8787/trails/trail/17
 
 
 # response: {

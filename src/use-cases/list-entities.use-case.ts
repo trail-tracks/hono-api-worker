@@ -18,6 +18,8 @@ export interface ListEntitiesUseCaseResponse {
     phone: string;
     nameComplement?: string | null;
     addressComplement?: string | null;
+    coverUrl: string | null;
+    posterUrl: string | null;
   }>;
   error?: {
     message: string;
@@ -29,7 +31,7 @@ export class ListEntitiesUseCase {
   static async execute(d1Database: D1Database): Promise<ListEntitiesUseCaseResponse> {
     const db = getDb(d1Database);
     try {
-      const entities = await db
+      const results = await db
         .select({
           id: entity.id,
           name: entity.name,
@@ -49,11 +51,40 @@ export class ListEntitiesUseCase {
           attachment,
           and(
             eq(entity.id, attachment.entityId),
-            like(attachment.url, '%/cover/%'),
+            eq(attachment.type, 'cover'),
           ),
         )
         .where(isNull(entity.deletedAt))
         .all();
+
+      const posterResults = await db
+        .select({
+          entityId: attachment.entityId,
+          posterUrl: attachment.url,
+        })
+        .from(attachment)
+        .where(eq(attachment.type, 'poster'))
+        .all();
+
+      const posterMap = new Map(
+        posterResults.map((p) => [p.entityId, p.posterUrl]),
+      );
+
+      const entities = results.map((e) => ({
+        id: e.id,
+        name: e.name,
+        email: e.email,
+        zipCode: e.zipCode,
+        address: e.address,
+        number: e.number,
+        city: e.city,
+        state: e.state,
+        phone: e.phone,
+        nameComplement: e.nameComplement,
+        addressComplement: e.addressComplement,
+        coverUrl: e.coverUrl,
+        posterUrl: posterMap.get(e.id) ?? null,
+      }));
 
       return {
         success: true,
