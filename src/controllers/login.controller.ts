@@ -27,7 +27,7 @@ export class LoginController {
         httpOnly: true,
         path: '/',
         sameSite: 'none',
-        secure: true,
+        secure: true
       });
 
       return c.json(
