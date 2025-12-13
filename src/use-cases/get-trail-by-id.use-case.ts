@@ -97,7 +97,7 @@ export class GetTrailByIdUseCase {
         .where(
           and(
             eq(attachment.trailId, trailId),
-            like(attachment.url, '%/galery/%'),
+            like(attachment.url, '%/gallery/%'),
           ),
         );
 

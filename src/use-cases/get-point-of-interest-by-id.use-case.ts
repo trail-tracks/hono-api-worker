@@ -80,7 +80,7 @@ export class GetPointOfInterestByIdUseCase {
         .where(
           and(
             eq(attachment.pointOfInterestId, pointOfInterestId),
-            like(attachment.url, '%/galery/%'),
+            like(attachment.url, '%/gallery/%'),
           ),
         );
 
