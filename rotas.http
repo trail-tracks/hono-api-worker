@@ -328,7 +328,7 @@ Content-Type: application/json
 
 
 ### Upload attachment (entidade)
-#### types: galery | cover 
+#### types: gallery | cover 
 
 ### Upload attachment (trilha) - capa
 #### Substitua "1" pelo ID da trilha criada
@@ -427,12 +427,12 @@ GET http://localhost:8787/trails/trail/11
 #     "gallery": [
 #       {
 #         "id": 1,
-#         "url": "https://example.com/galery/trail-1-img1.jpg",
+#         "url": "https://example.com/gallery/trail-1-img1.jpg",
 #         "uuid": "abc123-def456-ghi789"
 #       },
 #       {
 #         "id": 2,
-#         "url": "https://example.com/galery/trail-1-img2.jpg",
+#         "url": "https://example.com/gallery/trail-1-img2.jpg",
 #         "uuid": "xyz789-uvw456-rst123"
 #       }
 #     ]
