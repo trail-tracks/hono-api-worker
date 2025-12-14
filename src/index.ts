@@ -1,12 +1,12 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import authRoutes from './routes/auth.routes';
 import attachmentsRoutes from './routes/attachments.routes';
-import { AppBindings, AppVariables } from './types/env';
-import trailsRoutes from './routes/trails.route';
+import authRoutes from './routes/auth.routes';
 import entitiesRoutes from './routes/entities.routes';
 import pointsOfInterestRoutes from './routes/points-of-interest.routes';
 import qrCodeRoutes from './routes/qrcode.routes';
+import trailsRoutes from './routes/trails.route';
+import { AppBindings, AppVariables } from './types/env';
 
 const app = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 
@@ -20,7 +20,7 @@ app.use(
       'X-Custom-Header',
       'Upgrade-Insecure-Requests',
     ],
-    allowMethods: ['POST', 'GET', 'PUT', 'DELETE', 'OPTIONS'],
+    allowMethods: ['POST', 'GET', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     exposeHeaders: ['Content-Length', 'X-Kuma-Revision'],
     credentials: true,
   }),
