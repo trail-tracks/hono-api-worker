@@ -1,9 +1,9 @@
 import '../polyfills/dom-parser';
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { and, eq } from 'drizzle-orm';
 import { attachment } from '../../drizzle/schema';
 import { getDb } from '../../drizzle/db';
-import { and, eq } from 'drizzle-orm';
 
 // Define as interfaces de entrada e saída do caso de uso
 export interface UploadAttachmentUseCaseInput {
@@ -61,7 +61,6 @@ export class UploadAttachmentUseCase {
   static async execute(
     params: UploadAttachmentUseCaseInput,
   ): Promise<UploadAttachmentUseCaseResponse> {
-
     const {
       d1Database,
       file,
@@ -187,8 +186,8 @@ export class UploadAttachmentUseCase {
         .where(
           and(
             eq(attachment.entityId, entityId),
-            eq(attachment.type, type)
-          )
+            eq(attachment.type, type),
+          ),
         )
         .get();
 
@@ -213,11 +212,11 @@ export class UploadAttachmentUseCase {
 
     const uuid = crypto.randomUUID();
 
-    const objectKey = type === 'cover' 
-      ? `${baseObjectKey}/${entityId}/${type}/profile` 
+    const objectKey = type === 'cover'
+      ? `${baseObjectKey}/${entityId}/${type}/profile`
       : type === 'poster'
-      ? `${baseObjectKey}/${entityId}/${type}/poster`
-      : `${baseObjectKey}/${entityId}/${type}/${uuid}`;
+        ? `${baseObjectKey}/${entityId}/${type}/poster`
+        : `${baseObjectKey}/${entityId}/${type}/${uuid}`;
 
     await client.send(new PutObjectCommand({
       Bucket: bucket,
@@ -263,6 +262,24 @@ export class UploadAttachmentUseCase {
     baseObjectKey: string,
     fileSize: number,
   ): Promise<void> {
+    const existingCover = await this.db
+      .select()
+      .from(attachment)
+      .where(
+        and(
+          eq(attachment.trailId, trailId),
+          eq(attachment.type, 'cover'),
+        ),
+      )
+      .get();
+
+    if (existingCover) {
+      await this.db
+        .delete(attachment)
+        .where(eq(attachment.uuid, existingCover.uuid))
+        .run();
+    }
+
     const uuid = crypto.randomUUID();
 
     const objectKey = type === 'cover' ? `${baseObjectKey}/${trailId}/${type}/profile` : `${baseObjectKey}/${trailId}/${type}/${uuid}`;
