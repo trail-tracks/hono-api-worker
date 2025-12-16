@@ -49,7 +49,7 @@ Content-Type: application/json
 
 {
 	"email": "reservas@pedraalta.org",
-	"password": "12345678"
+	"password": "123456"
 }
 
 ### Upload de imagem
@@ -74,13 +74,13 @@ POST http://localhost:8787/trails
 Content-Type: application/json
 
 {
-	 "name": "Trilha da Mata Profunda",
-    "shortDescription": "Trilha desafiadora em ambiente de mata fechada, com solo úmido, raízes expostas e alta presença de fauna típica da Mata Atlântica.",
-    "duration": 210,
-    "distance": 6,
-    "difficulty": "dificil",
-    "description": "O caminho é estreito e sombreado praticamente o tempo todo, com trechos onde a vegetação forma túneis naturais. A umidade elevada favorece o crescimento de musgos e bromélias, além de atrair uma grande variedade de insetos e pequenos animais. Em alguns pontos, o som de quedas d’água ao longe acompanha o visitante durante o percurso.",
-    "safetyTips": "Permaneça sempre na trilha demarcada para evitar desorientação, utilize repelente e caminhe com atenção para evitar escorregões em áreas de solo úmido."
+	"name": "Trilha da Mata Profunda",
+  "shortDescription": "Trilha desafiadora em ambiente de mata fechada, com solo úmido, raízes expostas e alta presença de fauna típica da Mata Atlântica.",
+  "duration": 210,
+  "distance": 6,
+  "difficulty": "dificil",
+  "description": "O caminho é estreito e sombreado praticamente o tempo todo, com trechos onde a vegetação forma túneis naturais. A umidade elevada favorece o crescimento de musgos e bromélias, além de atrair uma grande variedade de insetos e pequenos animais. Em alguns pontos, o som de quedas d’água ao longe acompanha o visitante durante o percurso.",
+  "safetyTips": "Permaneça sempre na trilha demarcada para evitar desorientação, utilize repelente e caminhe com atenção para evitar escorregões em áreas de solo úmido."
 }
 
 ### Criar Ponto de Interesse (requer autenticação e trilha existente)
@@ -91,7 +91,7 @@ Content-Type: application/json
 	"name": "Clareira Final",
     "shortDescription": "Grande área aberta que marca o fim da trilha.",
     "description": "Uma clareira iluminada que funciona como ponto final de descanso. Oferece espaço para grupos, além de boa ventilação e vista parcial da mata.",
-    "trailId": 24
+    "trailId": 1
 }
 
 
@@ -150,6 +150,24 @@ Content-Type: application/json
 
 ### Get Myself
 GET http://localhost:8787/auth
+
+# response: {
+#   "message": "Entidade encontrada com sucesso",
+#   "entity": {
+#     "id": 1,
+#     "name": "João Silva",
+#     "nameComplement": "Filho",
+#     "email": "joao.silva2@email.com",
+#     "zipCode": "12345678",
+#     "address": "Rua das Pedras",
+#     "number": "456",
+#     "city": "São Paulo",
+#     "state": "SP",
+#     "addressComplement": "Apto 45",
+#     "phone": "11999999999999",
+#     "posterUrl": null
+#   }
+# }
 
 ### Edit
 PUT http://localhost:8787/auth/edit
@@ -220,6 +238,28 @@ GET http://localhost:8787/entities
 #   "message": "Entidades listadas com sucesso",
 #   "entities": [
 #     {
+
+### Get Entity by ID
+GET http://localhost:8787/entities/2
+
+# response: {
+#   "message": "Entidade encontrada com sucesso",
+#   "entity": {
+#     "id": 1,
+#     "name": "Parquinho de teste",
+#     "email": "marcus@gmail.com",
+#     "zipCode": "11695304",
+#     "address": "Rua Praia Domingas Dias",
+#     "number": "206",
+#     "city": "Ubatuba",
+#     "state": "SP",
+#     "phone": "5512992291446",
+#     "nameComplement": null,
+#     "addressComplement": null,
+#     "coverUrl": "https://example.com/cover/entity-1.jpg",
+#     "posterUrl": "https://example.com/poster/entity-1.jpg"
+#   }
+# }
 #       "id": 1,
 #       "name": "Parquinho de teste",
 #       "email": "marcus@gmail.com",
@@ -297,7 +337,7 @@ Content-Type: application/json
 GET http://localhost:8787/trails
 
 ### List Trails by entity ID
-GET http://localhost:8787/trails/trail/17
+GET http://localhost:8787/trails/trail/1
 
 
 # response: {
@@ -363,7 +403,7 @@ Content-Type: application/json
 # }
 
 ### pegar Ponto de Interesse por ID
-GET http://localhost:8787/points-of-interest/2
+GET http://localhost:8787/points-of-interest/1
 
 # {
 #   "message": "Ponto de interesse encontrado com sucesso",
@@ -390,7 +430,7 @@ Content-Type: application/json
 
 
 ### Upload de imagem para Ponto de Interesse
-POST http://localhost:8787/attachments?type=cover&pointOfInterestId=4
+POST http://localhost:8787/attachments?type=cover&entity=1
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
@@ -411,7 +451,9 @@ GET http://localhost:8787/qrcode/11
 
 ### Get Trail by ID (buscar trilha completa com capa e galeria)
 #### Substitua "1" pelo ID da trilha criada
-GET http://localhost:8787/trails/trail/11
+
+GET http://localhost:8787/trails/trail/1
+
 # response: {
 #   "message": "Trilha encontrada com sucesso",
 #   "trail": {
@@ -427,12 +469,12 @@ GET http://localhost:8787/trails/trail/11
 #     "gallery": [
 #       {
 #         "id": 1,
-#         "url": "https://example.com/gallery/trail-1-img1.jpg",
+#         "url": "https://example.com/galery/trail-1-img1.jpg",
 #         "uuid": "abc123-def456-ghi789"
 #       },
 #       {
 #         "id": 2,
-#         "url": "https://example.com/gallery/trail-1-img2.jpg",
+#         "url": "https://example.com/galery/trail-1-img2.jpg",
 #         "uuid": "xyz789-uvw456-rst123"
 #       }
 #     ]
