@@ -212,6 +212,12 @@ Content-Type: application/json
 	"password": "novaSenhaSegura123"
 }
 
+### Logout (requer autenticação)
+POST http://localhost:8787/auth/logout
+
+# response: {
+#   "message": "Logout realizado com sucesso"
+# }
 
 ### Login
 POST http://localhost:8787/auth/login
@@ -383,10 +389,10 @@ POST http://localhost:8787/points-of-interest
 Content-Type: application/json
 
 {
-	"name": "Mirante do Vale",
+	"name": "Aqui vai o teste de numero 3",
 	"shortDescription": "Vista panorâmica incrível de 180 graus do vale e das montanhas ao redor.",
 	"description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais.",
-	"trailId": 11
+	"trailId": 1
 }
 
 # response esperada: {
@@ -428,9 +434,16 @@ Content-Type: application/json
 	"description": "Este mirante natural oferece uma das melhores vistas da trilha. É um excelente ponto para descanso e fotos. Recomendamos chegar aqui durante o nascer ou pôr do sol para uma experiência ainda mais especial. O local tem algumas pedras planas que servem como bancos naturais"
 }
 
+### Deletar Ponto de Interesse (requer autenticação)
+#### Deleta o ponto de interesse e todas as suas imagens (cover e gallery)
+DELETE http://localhost:8787/points-of-interest/4
+
+# response: {
+#   "message": "Ponto de interesse deletado com sucesso"
+# }
 
 ### Upload de imagem para Ponto de Interesse
-POST http://localhost:8787/attachments?type=cover&entity=1
+POST http://localhost:8787/attachments?type=cover&pointOfInterestId=4
 Content-Type: multipart/form-data; boundary=boundary123
 
 --boundary123
