@@ -4,7 +4,9 @@ import { ChangeEmailController } from '../controllers/change-email.controller';
 import { ChangePasswordController } from '../controllers/change-password.controller';
 import { DeleteEntityController } from '../controllers/delete-entity.controller';
 import { EditEntityController } from '../controllers/edit-entity.controller';
+import { GetEntityController } from '../controllers/get-entity.controller';
 import { LoginController } from '../controllers/login.controller';
+import { LogoutController } from '../controllers/logout.controller';
 import { EntitiesController } from '../controllers/signup-entity.controller';
 import { changeEmailSchema } from '../dtos/change-email.dto';
 import { changePasswordSchema } from '../dtos/change-password.dto';
@@ -14,7 +16,6 @@ import { loginSchema } from '../dtos/login.dto';
 import { CreateEntityDto } from '../dtos/signup.dto';
 import { authMiddleware } from '../middlewares/auth-middleware';
 import { AppBindings, AppVariables } from '../types/env';
-import { GetEntityController } from '../controllers/get-entity.controller';
 
 const authRoutes = new Hono<{ Bindings: AppBindings; Variables: AppVariables }>();
 const editEntityController = new EditEntityController();
@@ -23,6 +24,8 @@ const entitiesController = new EntitiesController();
 const changeEmailController = new ChangeEmailController();
 const changePasswordController = new ChangePasswordController();
 const getEntityController = new GetEntityController();
+const loginController = new LoginController();
+const logoutController = new LogoutController();
 
 authRoutes.get(
   '/',
@@ -58,7 +61,11 @@ authRoutes.patch(
   changePasswordController.handle.bind(changePasswordController),
 );
 
-const loginController = new LoginController();
+authRoutes.post(
+  '/logout',
+  authMiddleware,
+  logoutController.handle.bind(logoutController),
+);
 
 authRoutes.post(
   '/login',
@@ -66,7 +73,6 @@ authRoutes.post(
   loginController.handle.bind(loginController),
 );
 
-// Rota de registro (signup)
 authRoutes.post(
   '/signup',
   zValidator('json', CreateEntityDto),

@@ -1,8 +1,9 @@
 import { zValidator } from '@hono/zod-validator';
 import { Hono } from 'hono';
 import { CreatePointOfInterestController } from '../controllers/create-point-of-interest.controller';
-import { GetPointOfInterestByIdController } from '../controllers/get-point-of-interest-by-id.controller';
+import { DeletePointOfInterestController } from '../controllers/delete-point-of-interest.controller';
 import { EditPointOfInterestController } from '../controllers/edit-point-of-interest.controller';
+import { GetPointOfInterestByIdController } from '../controllers/get-point-of-interest-by-id.controller';
 import { createPointOfInterestSchema } from '../dtos/create-point-of-interest.dto';
 import { editPointOfInterestSchema } from '../dtos/edit-point-of-interest.dto';
 import { authMiddleware } from '../middlewares/auth-middleware';
@@ -14,6 +15,7 @@ const pointsOfInterestRoutes = new Hono<{
 }>();
 
 const createPointOfInterestController = new CreatePointOfInterestController();
+const deletePointOfInterestController = new DeletePointOfInterestController();
 const getPointOfInterestByIdController = new GetPointOfInterestByIdController();
 const editPointOfInterestController = new EditPointOfInterestController();
 
@@ -29,6 +31,12 @@ pointsOfInterestRoutes.patch(
   authMiddleware,
   zValidator('json', editPointOfInterestSchema),
   editPointOfInterestController.edit.bind(editPointOfInterestController),
+);
+
+pointsOfInterestRoutes.delete(
+  '/:id',
+  authMiddleware,
+  deletePointOfInterestController.delete.bind(deletePointOfInterestController),
 );
 
 pointsOfInterestRoutes.get(
