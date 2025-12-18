@@ -16,14 +16,14 @@ entitiesRoutes.get(
 );
 
 entitiesRoutes.get(
-  '/:id',
-  getEntityByIdController.get.bind(getEntityByIdController),
-);
-
-entitiesRoutes.get(
   '/home',
   authMiddleware,
   getDashHomeController.handle.bind(getDashHomeController),
+);
+
+entitiesRoutes.get(
+  '/:id',
+  getEntityByIdController.get.bind(getEntityByIdController),
 );
 
 export default entitiesRoutes;
